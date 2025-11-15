@@ -1,235 +1,104 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>D1AM0ND5 — Portfolio Showroom</title>
-  <style>
-    :root{
-      --bg:#f7fafc; --card:#fff; --muted:#6b7280; --accent:#4f46e5; --text:#111827;
-    }
-    [data-theme="dark"]{ --bg:#0b1220; --card:#0f1724; --muted:#9ca3af; --accent:#8b5cf6; --text:#e6eef8 }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
-    .container{max-width:1100px;margin:0 auto;padding:28px}
-    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-    h1{font-size:20px;margin:0}
-    .hero{background:linear-gradient(90deg,var(--accent),#ec4899);color:white;padding:48px;border-radius:12px;margin-bottom:22px}
-    .hero h2{margin:0;font-size:34px}
-    .hero p{margin-top:10px;opacity:0.95}
-    .controls{display:flex;gap:8px;align-items:center}
-    button{background:var(--card);border:1px solid rgba(0,0,0,0.06);padding:8px 12px;border-radius:8px;cursor:pointer}
-    .btn-primary{background:var(--accent);color:white;border:none}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
-    .card{background:var(--card);border-radius:10px;overflow:hidden;box-shadow:0 4px 18px rgba(2,6,23,0.06);border:1px solid rgba(0,0,0,0.04)}
-    .card img{width:100%;height:160px;object-fit:cover;display:block}
-    .card .body{padding:12px}
-    .card h3{margin:0;font-size:18px;color:var(--accent)}
-    .card p{margin:8px 0 0;color:var(--muted);font-size:14px}
-    .small{font-size:13px;color:var(--muted)}
-    footer{margin:40px 0;text-align:center;color:var(--muted)}
-
-    /* modal */
-    .modal-back{position:fixed;inset:0;background:rgba(2,6,23,0.5);display:none;align-items:center;justify-content:center;padding:20px}
-    .modal{background:var(--card);border-radius:12px;max-width:720px;width:100%;padding:18px}
-    .row{display:flex;gap:12px}
-    input,textarea,select{width:100%;padding:10px;border-radius:8px;border:1px solid #e5e7eb;background:transparent;color:var(--text)}
-    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
-    .meta{display:flex;gap:12px;align-items:center}
-    .stat{background:var(--card);padding:12px;border-radius:10px;text-align:center;box-shadow:0 6px 18px rgba(2,6,23,0.04)}
-
-    @media (max-width:700px){.hero h2{font-size:24px}.row{flex-direction:column}}
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D1AM0ND5 Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-  <div class="container" id="app">
-    <header>
-      <div>
-        <h1>💎 D1AM0ND5 Portfolio</h1>
-        <div class="small">Digital work: scripts, animation, VFX & game prototypes</div>
+<body class="bg-black text-white font-sans">
+
+  <!-- HEADER -->
+  <header class="flex justify-between items-center px-8 py-6 border-b border-gray-700 sticky top-0 bg-black">
+    <h1 class="text-2xl font-bold">💎 D1AM0ND5 Portfolio</h1>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="text-center py-20 bg-gradient-to-r from-black via-gray-700 to-white text-white">
+    <h2 class="text-5xl font-extrabold mb-4">Showcase Your Digital Creations</h2>
+    <p class="max-w-2xl mx-auto text-lg text-gray-200">A clean and modern portfolio website fully made in HTML and TailwindCSS.</p>
+  </section>
+  
+  <!-- ABOUT ME -->
+  <section class="max-w-4xl mx-auto px-6 py-16 text-center">
+    <h3 class="text-4xl font-bold mb-6">About Me</h3>
+    <p class="text-lg text-gray-300 leading-relaxed">
+      I'm <strong class="text-white">D1AM0ND5</strong>, a Roblox developer and digital creator with <strong>2–3 years</strong> of experience.<br><br>
+      I've proudly served over <strong>50 happy clients</strong> with scripting, building, animation, VFX, and AI system development.<br><br>
+      My goal is to bring ideas to life with clean code, futuristic designs, and high‑quality results.
+    </p>
+  </section>
+
+  <!-- PAST WORK -->
+  <section class="max-w-5xl mx-auto px-6 py-16">
+    <h3 class="text-4xl font-bold mb-10 text-center">Past Work</h3>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-gray-900 p-4 rounded-xl border border-gray-700">
+        <img src="https://via.placeholder.com/300x180" class="rounded mb-3" />
+        <h4 class="text-xl font-semibold">Project Title</h4>
+        <p class="text-gray-400 text-sm mt-1">Short description goes here.</p>
       </div>
-      <div class="controls">
-        <button id="themeToggle" title="Toggle theme">🌙</button>
-        <button id="adminBtn">🔐 Admin</button>
-        <button id="addBtn" style="display:none">＋ Add</button>
-        <button id="exportBtn" style="display:none">⤓ Export</button>
+
+      <div class="bg-gray-900 p-4 rounded-xl border border-gray-700">
+        <img src="https://via.placeholder.com/300x180" class="rounded mb-3" />
+        <h4 class="text-xl font-semibold">Project Title</h4>
+        <p class="text-gray-400 text-sm mt-1">Short description goes here.</p>
       </div>
-    </header>
 
-    <section class="hero">
-      <h2>Showcase your digital creations</h2>
-      <p>Clean, fast portfolio to display scripts, animation, VFX and game work. Click a project to preview. (This static site stores projects in your browser — admin-only controls let you edit.)</p>
-    </section>
-
-    <section style="display:flex;gap:18px;margin-top:18px;flex-wrap:wrap;align-items:center">
-      <div style="flex:1;min-width:220px">
-        <h3 style="margin:0 0 8px 0;color:var(--accent)">About Me</h3>
-        <p style="margin:0;color:#000;font-size:15px;line-height:1.5">I'm <strong style="color:var(--accent)">D1AM0ND5</strong>, a digital creator with <strong>2–3 years</strong> experience. I've served <strong>50+ clients</strong>, building scripts, animations and VFX for games and media. I focus on creativity, performance and polish.</p>
+      <div class="bg-gray-900 p-4 rounded-xl border border-gray-700">
+        <img src="https://via.placeholder.com/300x180" class="rounded mb-3" />
+        <h4 class="text-xl font-semibold">Project Title</h4>
+        <p class="text-gray-400 text-sm mt-1">Short description goes here.</p>
       </div>
-      <div style="display:flex;gap:12px;align-items:center">
-        <div class="stat"><div style="font-size:20px;font-weight:700">50+</div><div class="small">Clients</div></div>
-        <div class="stat"><div style="font-size:20px;font-weight:700">2–3y</div><div class="small">Experience</div></div>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <section style="margin-top:26px">
-      <h3 style="color:var(--accent)">Projects</h3>
-      <div id="projects" class="grid"></div>
-      <p id="emptyNotice" class="small" style="text-align:center;margin-top:18px;display:none">No projects yet.</p>
-    </section>
+  <!-- PRICING SECTION -->
+  <section class="max-w-4xl mx-auto px-6 py-16">
+    <h3 class="text-4xl font-bold mb-10 text-center">Pricing</h3>
+    <div class="bg-gray-900 p-8 rounded-xl border border-gray-700 text-center">
+      <h4 class="text-2xl font-semibold mb-2">Scripting</h4>
+      <p class="text-lg">Starting from <strong>₹1500</strong> or <strong>$10</strong></p>
+    </div>
+  </section>
+  <br>
+  <section class="max-w-4xl mx-auto px-6 py-16">
+    <h3 class="text-4xl font-bold mb-10 text-center">Pricing</h3>
+    <div class="bg-gray-900 p-8 rounded-xl border border-gray-700 text-center">
+      <h4 class="text-2xl font-semibold mb-2">Visual Effects</h4>
+      <p class="text-lg">Starting from <strong>700 RBX</strong> or <strong>$5</strong></p>
+    </div>
+  </section>
+  <br>
+  <section class="max-w-4xl mx-auto px-6 py-16">
+    <h3 class="text-4xl font-bold mb-10 text-center">Pricing</h3>
+    <div class="bg-gray-900 p-8 rounded-xl border border-gray-700 text-center">
+      <h4 class="text-2xl font-semibold mb-2">Animations</h4>
+      <p class="text-lg">Starting from <strong>700 RBX</strong> or <strong>$5</strong></p>
+    </div>
+  </section>
 
-    <footer>
-      © <span id="year"></span> D1AM0ND5 — Built with HTML, CSS & JavaScript
-    </footer>
-  </div>
 
-  <!-- modal: preview / edit / login -->
-  <div id="modalBack" class="modal-back">
-    <div class="modal" id="modalContent"></div>
-  </div>
+  <!-- CONTACT SECTION -->
+  <section class="max-w-4xl mx-auto px-6 py-16 text-center">
+    <h3 class="text-4xl font-bold mb-6">Contact Me</h3>
+    <form class="grid gap-4 max-w-md mx-auto">
+      <input placeholder="Your Name" class="p-3 rounded-md bg-gray-900 border border-gray-700 text-white" />
+      <input placeholder="Your Email" class="p-3 rounded-md bg-gray-900 border border-gray-700 text-white" />
+      <textarea placeholder="Your Message" class="p-3 rounded-md bg-gray-900 border border-gray-700 text-white h-32"></textarea>
+      <button type="button" class="bg-white text-black font-semibold py-3 rounded-md hover:bg-gray-300">Send</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="text-center py-6 border-t border-gray-700 text-gray-400">
+    © <span id="year"></span> D1AM0ND5. Built in HTML & Tailwind.
+  </footer>
 
   <script>
-    // Simple static portfolio (single-file) with admin mode and localStorage persistence
-    const DEFAULT_PROJECTS = [
-      { id: Date.now()+1, title: 'Neon City Loop', description: '4K neon city animation (Blender + AE).', image: 'https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=1200&q=60', link: '#' },
-      { id: Date.now()+2, title: 'AI Monster NPC (Roblox)', description: 'An AI-driven NPC that learns player tactics.', image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&q=60', link: '#' }
-    ];
-
-    const app = document.getElementById('app');
-    const projectsEl = document.getElementById('projects');
-    const addBtn = document.getElementById('addBtn');
-    const exportBtn = document.getElementById('exportBtn');
-    const adminBtn = document.getElementById('adminBtn');
-    const modalBack = document.getElementById('modalBack');
-    const modalContent = document.getElementById('modalContent');
-    const themeToggle = document.getElementById('themeToggle');
-    const emptyNotice = document.getElementById('emptyNotice');
-
-    let projects = [];
-    let isAdmin = false;
-    const ADMIN_PASSWORD = 'diamondadmin'; // change this in code if you want a different password
-
-    // --- init ---
-    function load(){
-      const raw = localStorage.getItem('portfolio_data');
-      if(raw){ try{ projects = JSON.parse(raw); }catch(e){ projects = DEFAULT_PROJECTS } }
-      else { projects = DEFAULT_PROJECTS }
-      isAdmin = localStorage.getItem('isAdmin') === 'true';
-      updateAdminUI();
-      render();
-      document.getElementById('year').textContent = new Date().getFullYear();
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      setTheme(savedTheme);
-    }
-
-    function save(){ localStorage.setItem('portfolio_data', JSON.stringify(projects)); }
-
-    function render(){
-      projectsEl.innerHTML = '';
-      if(projects.length === 0) emptyNotice.style.display = 'block'; else emptyNotice.style.display = 'none';
-      projects.forEach(p => {
-        const card = document.createElement('article'); card.className = 'card';
-        card.innerHTML = `
-          <img src="${p.image}" alt="${escapeHtml(p.title)}" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
-          <div class=\"body\">\n            <h3>${escapeHtml(p.title)}</h3>\n            <p>${escapeHtml(p.description)}</p>\n            <div style=\"margin-top:10px;display:flex;gap:8px;align-items:center;justify-content:space-between\">\n              <div class=\"small\"><a href=\"${p.link || '#'}\" target=\"_blank\">Open</a></div>\n              <div id=\"controls-${p.id}\"></div>\n            </div>\n          </div>`;
-        projectsEl.appendChild(card);
-        const ctl = document.getElementById(`controls-${p.id}`);
-        if(isAdmin){
-          const edit = document.createElement('button'); edit.textContent='Edit'; edit.onclick=()=>openEdit(p);
-          const del = document.createElement('button'); del.textContent='Delete'; del.onclick=()=>{ if(confirm('Delete project?')){ projects = projects.filter(x=>x.id!==p.id); save(); render(); } };
-          ctl.appendChild(edit); ctl.appendChild(del);
-        }
-        // clicking card opens preview
-        card.querySelector('img').addEventListener('click',()=>openPreview(p));
-        card.querySelector('h3').addEventListener('click',()=>openPreview(p));
-      })
-    }
-
-    // --- UI & modals ---
-    function openPreview(p){
-      modalContent.innerHTML = `<div style="display:flex;gap:12px;flex-direction:column">\n        <img src=\"${p.image}\" style=\"width:100%;height:300px;object-fit:cover;border-radius:8px\" onerror=\"this.src='https://via.placeholder.com/900x400?text=No+Image'\">\n        <h2 style=\"margin:0;color:var(--accent)\">${escapeHtml(p.title)}</h2>\n        <p style=\"color:var(--muted)\">${escapeHtml(p.description)}</p>\n        <div style=\"display:flex;gap:8px;justify-content:flex-end\">\n          <a href=\"${p.link || '#'}\" target=\"_blank\"><button class=\"btn-primary\">Open Link</button></a>\n          <button onclick=\"closeModal()\">Close</button>\n        </div>\n      </div>`;
-      showModal();
-    }
-
-    function openEdit(p){
-      modalContent.innerHTML = formHtml(p);
-      bindForm(p);
-      showModal();
-    }
-
-    function openAdd(){
-      modalContent.innerHTML = formHtml();
-      bindForm();
-      showModal();
-    }
-
-    function formHtml(p){
-      return `
-        <div style="display:flex;flex-direction:column;gap:10px"> 
-          <h3 style="margin:0;color:var(--accent)">${p? 'Edit Project':'Add Project'}</h3>
-          <label>Title<input id='f_title' value='${p?escapeHtml(p.title):''}'></label>
-          <label>Description<textarea id='f_desc'>${p?escapeHtml(p.description):''}</textarea></label>
-          <label>Image URL<input id='f_image' value='${p?escapeHtml(p.image):''}'></label>
-          <label>Link<input id='f_link' value='${p?escapeHtml(p.link):''}'></label>
-          <div style='display:flex;gap:8px;justify-content:flex-end'>
-            <button id='cancelBtn'>Cancel</button>
-            <button id='saveBtn'>Save</button>
-          </div>
-        </div>`;
-    }
-
-    function bindForm(p){
-      document.getElementById('cancelBtn').onclick = closeModal;
-      document.getElementById('saveBtn').onclick = ()=>{
-        const t = document.getElementById('f_title').value.trim();
-        const d = document.getElementById('f_desc').value.trim();
-        const i = document.getElementById('f_image').value.trim();
-        const l = document.getElementById('f_link').value.trim();
-        if(!t){alert('Title required');return}
-        if(p){ // update
-          projects = projects.map(x=> x.id===p.id? {...x,title:t,description:d,image:i,link:l}:x);
-        } else { projects.push({ id:Date.now(), title:t, description:d, image:i||'https://via.placeholder.com/900x500?text=Project', link:l }); }
-        save(); render(); closeModal();
-      }
-    }
-
-    function showModal(){ modalBack.style.display='flex'; }
-    function closeModal(){ modalBack.style.display='none'; modalContent.innerHTML=''; }
-    window.closeModal = closeModal; // expose for inline handlers
-
-    // --- admin ---
-    adminBtn.onclick = ()=>{
-      const pw = prompt('Enter admin password:');
-      if(pw === ADMIN_PASSWORD){ isAdmin = true; localStorage.setItem('isAdmin','true'); updateAdminUI(); render(); alert('Admin mode enabled'); }
-      else if(pw) alert('Wrong password');
-    }
-
-    function updateAdminUI(){
-      addBtn.style.display = isAdmin? 'inline-block':'none';
-      exportBtn.style.display = isAdmin? 'inline-block':'none';
-      adminBtn.textContent = isAdmin? 'Logout':'🔐 Admin';
-      if(isAdmin){ adminBtn.onclick = ()=>{ if(confirm('Logout admin?')){ isAdmin=false; localStorage.removeItem('isAdmin'); updateAdminUI(); render(); } } } else { adminBtn.onclick = ()=>{ const pw = prompt('Enter admin password:'); if(pw===ADMIN_PASSWORD){ isAdmin=true; localStorage.setItem('isAdmin','true'); updateAdminUI(); render(); alert('Admin mode enabled'); } else if(pw) alert('Wrong password'); } }
-    }
-
-    addBtn.onclick = openAdd;
-    exportBtn.onclick = ()=>{ const data = JSON.stringify(projects, null, 2); const blob = new Blob([data], {type:'application/json'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='portfolio-data.json'; a.click(); URL.revokeObjectURL(url); }
-
-    // theme
-    themeToggle.onclick = ()=>{ const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; const next = cur==='light'? 'dark':'light'; setTheme(next); }
-    function setTheme(t){ if(t==='dark'){ document.documentElement.setAttribute('data-theme','dark'); themeToggle.textContent='☀️'; } else { document.documentElement.removeAttribute('data-theme'); themeToggle.textContent='🌙'; } localStorage.setItem('theme',t); }
-
-    // helpers
-    function escapeHtml(s){ if(!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-    function initEvents(){ document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); }); }
-
-    // start
-    initEvents(); load();
+    document.getElementById('year').innerText = new Date().getFullYear();
   </script>
+
 </body>
 </html>
 
-      )}
-    </div>
-  );
-}
