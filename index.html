@@ -6,23 +6,58 @@
   <title>D1AM0ND5 Portfolio</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-black text-white font-sans">
+<style>
+  
+  img { filter: none !important; }
+  .border, .border-black, .border-gray-700, .border-gray-300 { border-color: black !important; }
+
+  .animate-fadeIn { opacity: 0; animation: fadeIn 1.2s ease forwards; }
+  .animate-slideUp { opacity: 0; transform: translateY(20px); animation: slideUp 1s ease forwards; }
+  .delay-150 { animation-delay: .15s; }
+  .delay-300 { animation-delay: .3s; }
+  @keyframes fadeIn { to { opacity: 1; } }
+  @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+</style>
+<body class="bg-white text-black font-sans">
 
   <!-- HEADER -->
-  <header class="flex justify-between items-center px-8 py-6 border-b border-gray-700 sticky top-0 bg-black">
+  <header class="flex justify-between items-center px-8 py-6 border-b border-gray-300 sticky top-0 bg-white shadow-md transition-all duration-500"> class="flex justify-between items-center px-8 py-6 border-b border-gray-700 sticky top-0 bg-black">
     <h1 class="text-2xl font-bold">💎 D1AM0ND5 Portfolio</h1>
   </header>
 
   <!-- HERO SECTION -->
-  <section class="text-center py-20 bg-gradient-to-r from-black via-gray-700 to-white text-white">
-    <h2 class="text-5xl font-extrabold mb-4">Showcase Your Digital Creations</h2>
-    <p class="max-w-2xl mx-auto text-lg text-gray-200">A clean and modern portfolio website fully made in HTML and TailwindCSS.</p>
+  <section class="text-center py-20 bg-white text-black animate-fadeIn">
+    <h2 class="text-5xl font-extrabold mb-4 animate-slideUp">Showcase Your Digital Creations</h2>
+    <p class="max-w-2xl mx-auto text-lg text-black animate-slideUp delay-150">A clean and modern portfolio website fully made in HTML and TailwindCSS.</p>
   </section>
-  
+
+  <!-- PRICING SECTION -->
+  <section class="max-w-4xl mx-auto px-6 py-16 animate-fadeIn">
+    <h3 class="text-4xl font-bold mb-10 text-center">Pricing</h3>
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <div class="bg-black p-8 text-white rounded-xl border border-black text-center shadow-md hover:shadow-xl transition duration-300 animate-slideUp">
+        <h4 class="text-2xl font-semibold mb-2">Scripting</h4>
+        <p class="text-lg">Starting from <strong>700 RBX</strong> or <strong>$10</strong></p>
+      </div>
+
+      <div class="bg-black p-8 text-white rounded-xl border border-black text-center shadow-md hover:shadow-xl transition duration-300 animate-slideUp delay-150">
+        <h4 class="text-2xl font-semibold mb-2">Visual Effects</h4>
+        <p class="text-lg">Starting from <strong>700 RBX</strong> or <strong>$5</strong></p>
+      </div>
+
+      <div class="bg-black p-8 text-white rounded-xl border border-black text-center shadow-md hover:shadow-xl transition duration-300 animate-slideUp delay-300">
+        <h4 class="text-2xl font-semibold mb-2">Animations</h4>
+        <p class="text-lg">Starting from <strong>700 RBX</strong> or <strong>$5</strong></p>
+      </div>
+
+    </div>
+  </section>
+
   <!-- ABOUT ME -->
   <section class="max-w-4xl mx-auto px-6 py-16 text-center">
     <h3 class="text-4xl font-bold mb-6">About Me</h3>
-    <p class="text-lg text-gray-300 leading-relaxed">
+    <p class="text-lg text-black leading-relaxed">
       I'm <strong class="text-white">D1AM0ND5</strong>, a Roblox developer and digital creator with <strong>2–3 years</strong> of experience.<br><br>
       I've proudly served over <strong>50 happy clients</strong> with scripting, building, animation, VFX, and AI system development.<br><br>
       My goal is to bring ideas to life with clean code, futuristic designs, and high‑quality results.
@@ -30,62 +65,116 @@
   </section>
 
   <!-- PAST WORK -->
-  <section class="max-w-5xl mx-auto px-6 py-16">
+  <section class="max-w-5xl mx-auto px-6 py-16 animate-fadeIn">
     <h3 class="text-4xl font-bold mb-10 text-center">Past Work</h3>
     <div class="grid md:grid-cols-3 gap-8">
-      <div class="bg-gray-900 p-4 rounded-xl border border-gray-700">
+      <div class="bg-black p-4 text-white rounded-xl border border-black shadow-md hover:shadow-xl transition duration-300 animate-slideUp">
         <img src="https://via.placeholder.com/300x180" class="rounded mb-3" />
         <h4 class="text-xl font-semibold">Project Title</h4>
-        <p class="text-gray-400 text-sm mt-1">Short description goes here.</p>
+        <p class="text-black text-sm mt-1">Short description goes here.</p>
       </div>
 
-      <div class="bg-gray-900 p-4 rounded-xl border border-gray-700">
+      <div class="bg-black p-4 text-white rounded-xl border border-black shadow-md hover:shadow-xl transition duration-300 animate-slideUp delay-150">
         <img src="https://via.placeholder.com/300x180" class="rounded mb-3" />
         <h4 class="text-xl font-semibold">Project Title</h4>
-        <p class="text-gray-400 text-sm mt-1">Short description goes here.</p>
+        <p class="text-black text-sm mt-1">Short description goes here.</p>
       </div>
 
-      <div class="bg-gray-900 p-4 rounded-xl border border-gray-700">
+      <div class="bg-black p-4 text-white rounded-xl border border-black shadow-md hover:shadow-xl transition duration-300 animate-slideUp delay-300">
         <img src="https://via.placeholder.com/300x180" class="rounded mb-3" />
         <h4 class="text-xl font-semibold">Project Title</h4>
-        <p class="text-gray-400 text-sm mt-1">Short description goes here.</p>
+        <p class="text-black text-sm mt-1">Short description goes here.</p>
       </div>
     </div>
   </section>
 
-  <!-- PRICING SECTION -->
-  <section class="max-w-4xl mx-auto px-6 py-16">
-    <h3 class="text-4xl font-bold mb-10 text-center">Pricing</h3>
-    <div class="bg-gray-900 p-8 rounded-xl border border-gray-700 text-center">
-      <h4 class="text-2xl font-semibold mb-2">Scripting</h4>
-      <p class="text-lg">Starting from <strong>₹1500</strong> or <strong>$10</strong></p>
-    </div>
-  <br>
-    <div class="bg-gray-900 p-8 rounded-xl border border-gray-700 text-center">
-      <h4 class="text-2xl font-semibold mb-2">Visual Effects</h4>
-      <p class="text-lg">Starting from <strong>700 RBX</strong> or <strong>$5</strong></p>
-    </div>
-  <br>
-    <div class="bg-gray-900 p-8 rounded-xl border border-gray-700 text-center">
-      <h4 class="text-2xl font-semibold mb-2">Animations</h4>
-      <p class="text-lg">Starting from <strong>700 RBX</strong> or <strong>$5</strong></p>
-    </div>
-  </section>
+<!-- CONTACT SECTION (replace your current contact section with this) -->
+<section id="contact" class="max-w-4xl mx-auto px-6 py-16 text-center">
+  <h3 class="text-4xl font-bold mb-6">Contact Me</h3>
 
+  <div id="formMessage" aria-live="polite" style="display:none;margin-bottom:12px;"></div>
 
-  <!-- CONTACT SECTION -->
-  <section class="max-w-4xl mx-auto px-6 py-16 text-center">
-    <h3 class="text-4xl font-bold mb-6">Contact Me</h3>
-    <form class="grid gap-4 max-w-md mx-auto">
-      <input placeholder="Your Name" class="p-3 rounded-md bg-gray-900 border border-gray-700 text-white" />
-      <input placeholder="Your Email" class="p-3 rounded-md bg-gray-900 border border-gray-700 text-white" />
-      <textarea placeholder="Your Message" class="p-3 rounded-md bg-gray-900 border border-gray-700 text-white h-32"></textarea>
-      <button type="button" class="bg-white text-black font-semibold py-3 rounded-md hover:bg-gray-300">Send</button>
-    </form>
-  </section>
+  <form id="contactForm" class="grid gap-4 max-w-md mx-auto" autocomplete="off">
+    <!-- visible fields -->
+    <input name="name" id="name" placeholder="Your Name" class="p-3 rounded-md bg-black border border-black text-white" required />
+    <input name="email" id="email" type="email" placeholder="Your Email" class="p-3 rounded-md bg-black border border-black text-white" required />
+    <textarea name="message" id="message" placeholder="Your Message" class="p-3 rounded-md bg-black border border-black text-white h-32" required></textarea>
+
+    <!-- hidden FormSubmit controls -->
+    <input type="hidden" name="_subject" value="New portfolio message" />
+    <input type="hidden" name="_template" value="table" />
+    <input type="hidden" name="_captcha" value="false" />
+
+    <!-- honeypot (bot trap) -->
+    <input type="text" name="_honey" id="_honey" style="display:none" autocomplete="off" />
+
+    <button id="submitBtn" type="submit" class="bg-black text-white font-semibold py-3 rounded-md border border-black hover:bg-gray-900">
+      Send
+    </button>
+  </form>
+
+  <p class="mt-6 text-sm text-black">Tip: after first use, open <strong>diamondworking36@gmail.com</strong> and click the verification link from FormSubmit.</p>
+</section>
+
+<script>
+  (function () {
+    const form = document.getElementById('contactForm');
+    const msg = document.getElementById('formMessage');
+    const submitBtn = document.getElementById('submitBtn');
+
+    async function showMessage(text, type = 'success') {
+      msg.style.display = 'block';
+      msg.textContent = text;
+      msg.style.color = type === 'success' ? '#065f46' : '#b91c1c'; // green or red
+      // auto-hide after 7s
+      setTimeout(() => { msg.style.display = 'none'; }, 7000);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // simple honeypot check
+      if (form['_honey'] && form['_honey'].value) {
+        // bot — silently ignore
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      // use FormSubmit AJAX endpoint
+      const endpoint = 'https://formsubmit.co/ajax/diamondworking36@gmail.com';
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' },
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          showMessage('Message sent! Please check diamondworking36@gmail.com for replies.', 'success');
+          form.reset();
+        } else {
+          // FormSubmit returns 400 with details when not verified or other errors
+          const errText = (result && result.message) ? result.message : 'Failed to send message.';
+          showMessage('Error: ' + errText, 'error');
+        }
+      } catch (err) {
+        showMessage('Network error. Try again later.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send';
+      }
+    });
+  })();
+</script>
+
 
   <!-- FOOTER -->
-  <footer class="text-center py-6 border-t border-gray-700 text-gray-400">
+  <footer class="text-center py-6 border-t border-gray-700 text-black">
     © <span id="year"></span> D1AM0ND5. Built in HTML & Tailwind.
   </footer>
 
@@ -95,4 +184,3 @@
 
 </body>
 </html>
-
