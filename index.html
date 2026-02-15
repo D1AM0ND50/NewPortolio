@@ -3,117 +3,248 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio Showcase</title>
+<title>D1AM0ND5 | Hacker Portfolio</title>
+
 <style>
-.typewriter{display:inline-block; white-space:nowrap; overflow:hidden; border-right:3px solid currentColor; width:0; opacity:0;}
-@keyframes typing{from{width:0;}to{width:100%;}}
-@keyframes caret{50%{border-color:transparent;}}
-body { margin:0; padding:0; font-family:Arial,sans-serif; background:linear-gradient(to bottom, #222, #111); color:#fff; overflow-x:hidden; }
-header { text-align:center; padding:60px 20px; }
-h1 { font-size:60px; margin:0; font-weight:900; }
-.intro { margin-top:10px; font-size:20px; }
-.section-title { font-size:35px; text-align:center; margin:60px 0 30px; font-weight:700; }
-.carousel, .work-carousel { width:100%; height:220px; position:relative; display:flex; justify-content:center; align-items:center; overflow:hidden; }
-.carousel-item, .work-item { position:absolute; opacity:0; transition:all 0.8s ease; border:2px solid #fff; border-radius:12px; background:#222; display:flex; justify-content:center; align-items:center; font-weight:bold; }
-.center, .work-center { opacity:1; transform:translateX(0) scale(1); z-index:3; }
-.left { opacity:0.4; transform:translateX(-220px) scale(0.8); z-index:2; }
-.right { opacity:0.4; transform:translateX(220px) scale(0.8); z-index:2; }
-.work-left { opacity:0.4; transform:translateX(-260px) scale(0.8); }
-.work-right { opacity:0.4; transform:translateX(260px) scale(0.8); }
-.skills-list { width:90%; margin:auto; font-size:18px; margin-top:30px; line-height:28px; }
-.contact { text-align:center; padding:60px; }
-.contact a { display:block; font-size:25px; margin:15px; color:#fff; text-decoration:none; font-weight:bold; border:2px solid #fff; padding:10px 20px; border-radius:12px; }
-.carousel-item.center:hover, .work-item.work-center:hover { transform:scale(1.1); transition:transform 0.3s ease; box-shadow:0 0 18px rgba(255,255,255,0.25); }
-.floating-bg { position:fixed; top:0; left:0; width:100%; height:100%; overflow:hidden; z-index:0; pointer-events:none; }
-.dot { position:absolute; width:14px; height:14px; background:rgba(255,255,255,0.6); border-radius:50%; opacity:0.45; animation:floatUp 10s linear infinite; }
-@keyframes floatUp {0%{transform:translateY(100vh);opacity:0.2;}100%{transform:translateY(-10vh);opacity:0;}}
-@media(max-width:900px){ h1{font-size:42px;} .section-title{font-size:28px;} .intro{font-size:18px;} .carousel, .work-carousel{height:180px;} .carousel-item, .work-item{transform:scale(0.9);} .left, .right, .work-left, .work-right{transform:translateX(0) scale(0.75); opacity:0.3;} }
-@media(max-width:600px){ h1{font-size:32px;} .section-title{font-size:24px;} .intro{font-size:16px;} .carousel, .work-carousel{height:160px;} .carousel-item, .work-item{width:70%; font-size:14px;} .skills-list{font-size:16px;} #workSearch{width:200px;} }
+*{margin:0;padding:0;box-sizing:border-box;font-family:Consolas,monospace}
+body{background:#000;color:#00ff88;overflow-x:hidden;position:relative}
+
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+.glow{text-shadow:0 0 8px #00ff88,0 0 20px #00ff88}
+
+section{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:60px 10%;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(1px);
+  position:relative;
+  z-index:1;
+}
+
+.container{max-width:1100px;width:100%}
+
+h1{font-size:70px}
+h2{font-size:40px;margin-bottom:20px}
+p{color:#00cc66;font-size:18px;line-height:1.6}
+
+.btn{
+ display:inline-block;
+ margin-top:30px;
+ padding:12px 30px;
+ border:1px solid #00ff88;
+ color:#00ff88;
+ text-decoration:none;
+ transition:.3s;
+}
+.btn:hover{
+ background:#00ff88;
+ color:#000;
+ box-shadow:0 0 15px #00ff88;
+}
+
+.cards{display:flex;gap:30px;flex-wrap:wrap;margin-top:40px}
+.card{
+ flex:1 1 280px;
+ padding:25px;
+ border:1px solid #003322;
+ background:rgba(0,255,136,0.05);
+ transition:.4s;
+}
+.card:hover{
+ transform:scale(1.05);
+ box-shadow:0 0 20px #00ff88;
+}
+
+footer{text-align:center;padding:40px 0;color:#006644}
 </style>
 </head>
+
 <body>
-<div class="floating-bg" id="floatBg"></div>
-<header>
-<h1>Sparsh Portfolio</h1>
-<p class="intro">Roblox + Unity Developer with 2 years of experience</p>
-</header>
-<div class="section-title typewriter">Skills</div>
-<div class="carousel" id="skillsCarousel">
-<div class="carousel-item center"><img src="blender-removebg-preview.png" style="width:80px;height:80px;display:block;margin-bottom:8px;"></div>
-<div class="carousel-item left"><img src="C-removebg-preview.png" style="width:80px;height:80px;display:block;margin-bottom:8px;"></div>
-<div class="carousel-item right"><img src="Lua-removebg-preview.png" style="width:80px;height:80px;display:block;margin-bottom:8px;"></div>
-<div class="carousel-item right"><img src="Roblox-removebg-preview.png" style="width:80px;height:80px;display:block;margin-bottom:8px;"></div>
-<div class="carousel-item right"><img src="Unity-removebg-preview.png" style="width:80px;height:80px;display:block;margin-bottom:8px;"></div>
-</div>
-<div class="skills-list">
-<span class="typewriter">• Unity: Made a lots of games with dedication and passion and provided quality work to others Builded an indie horror game know as "Run Cam", proficiency in C# and Unity engine </span><br>
-<span class="typewriter">• Roblox Studio: 50+ commissions, 2 years exp in animating, rigging, scripting, VFX</span><br>
-<span class="typewriter">• Blender: Many animations, custom rigs, 10+ commissions</span>
-</div>
-<div class="section-title typewriter">Past Work</div>
-<div style="text-align:center; margin-bottom:20px;"><input id="workSearch" type="text" placeholder="Search Past Work..." style="padding:10px 15px; width:260px; font-size:16px; border:2px solid #fff; border-radius:10px; outline:none; background:#111; color:#fff;"></div>
-<div class="work-carousel" id="workCarousel">
-<div class="work-item work-center" onclick="window.open('https://demon-studio.itch.io/run-cam','_blank')"><img src="Work1Thumbnail.png" style="width:150px;height:90px;border-radius:8px;display:block;margin-bottom:6px;"></div>
-<div class="work-item work-left" onclick="window.open('https://www.artstation.com/artwork/QK53LL','_blank')"><img src="Untitled.png" style="width:150px;height:90px;border-radius:8px;display:block;margin-bottom:6px;"></div>
-<div class="work-item work-right" onclick="window.open('https://www.artstation.com/artwork/RKmxnv','_blank')"><img src="idea.png" style="width:150px;height:90px;border-radius:8px;display:block;margin-bottom:6px;"></div>
-</div>
-<div class="section-title typewriter">Contact Me</div>
-<div class="contact">
-<a href="https://discord.com/users/879769812346236988" target="_blank">D1AM0ND5 (Discord)</a>
-<a href="mailto:sparsh18anand@gmail.com">Email Me</a>
-</div>
+
+<canvas id="matrix"></canvas>
+
+<section>
+  <div class="container glow">
+    <h1 class="type">D1AM0ND5</h1>
+    <p class="type">> Roblox Developer | AI Systems | Advanced Scripting</p>
+    <a href="#projects" class="btn type">ACCESS PROJECTS</a>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <h2 class="glow type">About.exe</h2>
+    <p>
+      Initializing developer profile...<br><br>
+      Name: D1AM0ND5<br>
+      Experience: <span id="expCount">0</span> Months<br>
+      Visit Contributed: <span id="visitCount">0</span>+<br>
+      Systems Built: AI NPCs, Tycoons, Combat Engines<br>
+      Status: ACTIVE<br><br>
+
+      AboutMe:<br>
+      Started to learn Roblox Studio in 2023 through YouTube. 2024 was my main production year where I applied everything I learned into real projects, earned thousands of Robux, and built a strong reputation in the community. Published multiple free VFX assets in the toolbox to help other developers. Joined RoDevs in 2025 and completed 100+ commissions.<br><br>
+
+      Currently Working On:<br>
+      ➤ Brainrot Fighters – A battleground-style game inspired by brainrot characters. Working as Lead Developer.<br>
+      ➤ Zone Baller – A basketball-inspired sports game currently in development. Working as Ability Programmer.
+    </p>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <h2 class="glow type">Projects.log</h2>
+    <div class="cards">
+      <div class="card">
+        <h3 class="type">AI Monster</h3>
+        <p class="type">Self-learning adaptive NPC with GPT behavior simulation.</p>
+      </div>
+      <div class="card">
+        <h3 class="type">Future Tycoon</h3>
+        <p class="type">AI corporation simulator with automation & scaling logic.</p>
+      </div>
+      <div class="card">
+        <h3 class="type">VFX Engine</h3>
+        <p class="type">High-performance ability effects & combat visuals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="glow type">Collaborate.sys</h2>
+    <p class="type">Open for commissions & long-term development contracts.</p>
+    <a href="#" class="btn type">INITIATE CONTACT</a>
+  </div>
+</section>
+
+<footer>© 2026 D1AM0ND5 | SYSTEM ONLINE</footer>
+
 <script>
-// Floating Dots
-const bg = document.getElementById('floatBg');
-for(let i=0;i<25;i++){
- let dot=document.createElement('div'); dot.className='dot';
- dot.style.left=Math.random()*100+'%'; dot.style.animationDuration=(8+Math.random()*10)+'s'; dot.style.opacity=0.05+Math.random()*0.2;
- bg.appendChild(dot);
+// =============================
+// BINARY RISE EFFECT
+// =============================
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas(){
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const particles = [];
+
+function spawnBinary(){
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: canvas.height + 10,
+    value: Math.random() > 0.5 ? "0" : "1",
+    speed: 0.5 + Math.random() * 1.5,
+    opacity: 1,
+    size: 14 + Math.random() * 8
+  });
 }
 
-// Carousel Rotation
-function cycleCarousel(id,itemClass){
- const items=document.querySelectorAll('#'+id+' .'+itemClass);
- let index=0;
- setInterval(()=>{
- items.forEach((item,i)=>{ item.classList.remove('center','left','right','work-center','work-left','work-right'); });
- const prev=(index-1+items.length)%items.length;
- const next=(index+1)%items.length;
- if(itemClass==='carousel-item'){
- items[index].classList.add('center'); items[prev].classList.add('left'); items[next].classList.add('right');
- } else {
- items[index].classList.add('work-center'); items[prev].classList.add('work-left'); items[next].classList.add('work-right');
- }
- index=next;
- },3000);
+function animateBinary(){
+  ctx.fillStyle = "rgba(0,0,0,0.2)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  for(let i = particles.length - 1; i >= 0; i--){
+    const p = particles[i];
+    p.y -= p.speed;
+    p.opacity -= 0.003;
+
+    ctx.globalAlpha = p.opacity;
+    ctx.fillStyle = "#00ff88";
+    ctx.font = p.size + "px monospace";
+    ctx.fillText(p.value, p.x, p.y);
+    ctx.globalAlpha = 1;
+
+    if(p.opacity <= 0){
+      particles.splice(i,1);
+    }
+  }
+  requestAnimationFrame(animateBinary);
 }
-cycleCarousel('skillsCarousel','carousel-item');
-cycleCarousel('workCarousel','work-item');
 
-// Past Work Search
-const searchInput=document.getElementById('workSearch');
-const workItems=document.querySelectorAll('#workCarousel .work-item');
-searchInput.addEventListener('input',()=>{
- const query=searchInput.value.toLowerCase();
- workItems.forEach(item=>{ const text=item.innerText.toLowerCase(); item.style.display=text.includes(query)?'flex':'none'; });
+setInterval(spawnBinary, 80);
+animateBinary();
+
+// =============================
+// COUNTERS
+// =============================
+function animateCounter(id, target){
+  const el = document.getElementById(id);
+  if(!el) return;
+
+  let current = 0;
+  const increment = Math.ceil(target / 200);
+  const speed = target < 100 ? 40 : 5;
+
+  const counter = setInterval(()=>{
+    current += increment;
+    if(current >= target){
+      current = target;
+      clearInterval(counter);
+    }
+    el.textContent = current.toLocaleString();
+  }, speed);
+}
+
+const aboutObserver = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      animateCounter('expCount',36);
+      animateCounter('visitCount',10000);
+    }
+  });
+},{threshold:0.6});
+
+aboutObserver.observe(document.getElementById('about'));
+// =============================
+// TYPEWRITER ON VIEW
+// =============================
+
+function typeElement(el, speed = 25){
+  if(!el.dataset.text){
+    el.dataset.text = el.innerHTML;
+  }
+
+  const fullText = el.dataset.text;
+  el.innerHTML = "";
+  let i = 0;
+
+  const typing = setInterval(()=>{
+    el.innerHTML += fullText.charAt(i);
+    i++;
+    if(i >= fullText.length){
+      clearInterval(typing);
+    }
+  }, speed);
+}
+
+const typeObserver = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting && !entry.target.dataset.typed){
+      entry.target.dataset.typed = "true";
+      typeElement(entry.target, 20);
+    }
+  });
+},{threshold:0.4});
+
+document.querySelectorAll('.type').forEach(el=>{
+  typeObserver.observe(el);
 });
 
-// Typing Animation
-const typeElements=document.querySelectorAll('.typewriter');
-const observer=new IntersectionObserver(entries=>{
- entries.forEach(entry=>{
- if(entry.isIntersecting){ const el=entry.target;
- el.style.opacity=1;
- el.style.animation=`typing 2s steps(25,end) forwards, caret .7s step-end infinite`;
- observer.unobserve(el);
- }
- });
-},{threshold:0.3});
-
-typeElements.forEach(el=>{
- observer.observe(el);
- el.addEventListener('animationend',()=>{ el.style.borderRight='none'; });
-});
 </script>
+
 </body>
 </html>
