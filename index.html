@@ -103,14 +103,17 @@ footer{text-align:center;padding:40px 0;color:#006644}
       <div class="card">
         <h3 class="type">AI Monster</h3>
         <p class="type">Self-learning adaptive NPC with GPT behavior simulation.</p>
+        <a href="YOUR_AI_MONSTER_LINK_HERE" target="_blank" class="btn type">VIEW PROJECT</a>
       </div>
       <div class="card">
         <h3 class="type">Future Tycoon</h3>
         <p class="type">AI corporation simulator with automation & scaling logic.</p>
+        <a href="YOUR_FUTURE_TYCOON_LINK_HERE" target="_blank" class="btn type">VIEW PROJECT</a>
       </div>
       <div class="card">
         <h3 class="type">VFX Engine</h3>
         <p class="type">High-performance ability effects & combat visuals.</p>
+        <a href="YOUR_VFX_ENGINE_LINK_HERE" target="_blank" class="btn type">VIEW PROJECT</a>
       </div>
     </div>
   </div>
@@ -179,36 +182,52 @@ setInterval(spawnBinary, 80);
 animateBinary();
 
 // =============================
-// COUNTERS
+// COUNTERS (MOBILE FIXED)
 // =============================
 function animateCounter(id, target){
   const el = document.getElementById(id);
-  if(!el) return;
+  if(!el || el.dataset.started) return;
+
+  el.dataset.started = "true"; // prevent multiple triggers
 
   let current = 0;
-  const increment = Math.ceil(target / 200);
-  const speed = target < 100 ? 40 : 5;
+
+  // dynamic speed based on number size
+  const duration = target < 100 ? 2000 : 3000; // total animation time
+  const frameRate = 30;
+  const totalFrames = duration / frameRate;
+  const increment = target / totalFrames;
 
   const counter = setInterval(()=>{
     current += increment;
+
     if(current >= target){
       current = target;
       clearInterval(counter);
     }
-    el.textContent = current.toLocaleString();
-  }, speed);
+
+    el.textContent = Math.floor(current).toLocaleString();
+  }, frameRate);
 }
 
-const aboutObserver = new IntersectionObserver(entries=>{
+// Better mobile detection
+const aboutSection = document.getElementById('about');
+
+const aboutObserver = new IntersectionObserver((entries, observer)=>{
   entries.forEach(entry=>{
     if(entry.isIntersecting){
-      animateCounter('expCount',36);
-      animateCounter('visitCount',10000);
+      animateCounter('expCount', 36);
+      animateCounter('visitCount', 10000);
+
+      observer.unobserve(aboutSection); // run only once
     }
   });
-},{threshold:0.6});
+},{
+  threshold: 0.2,        // lower for mobile
+  rootMargin: "0px 0px -100px 0px" // triggers slightly earlier
+});
 
-aboutObserver.observe(document.getElementById('about'));
+aboutObserver.observe(aboutSection);
 // =============================
 // TYPEWRITER ON VIEW
 // =============================
