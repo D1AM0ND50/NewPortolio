@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D1AM0ND5 | Hacker Portfolio</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Consolas,monospace}
+body{background:#000;color:#00ff88;overflow-x:hidden;position:relative}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.glow{text-shadow:0 0 8px #00ff88,0 0 20px #00ff88}
+section{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:60px 10%;background:rgba(0,0,0,0.35);backdrop-filter:blur(1px);position:relative;z-index:1}
+.container{max-width:1100px;width:100%}
+h1{font-size:70px}
+h2{font-size:40px;margin-bottom:20px}
+p{color:#00cc66;font-size:18px;line-height:1.6;white-space:pre-wrap}
+.btn{display:inline-block;margin-top:30px;padding:12px 30px;border:1px solid #00ff88;color:#00ff88;text-decoration:none;transition:.3s}
+.btn:hover{background:#00ff88;color:#000;box-shadow:0 0 15px #00ff88}
+.cards{display:flex;gap:30px;flex-wrap:wrap;margin-top:40px}
+.card{flex:1 1 280px;padding:25px;border:1px solid #003322;background:rgba(0,255,136,0.05);transition:.4s}
+.card:hover{transform:scale(1.05);box-shadow:0 0 20px #00ff88}
+footer{text-align:center;padding:40px 0;color:#006644}
+.type.cursor::after{content:'|';animation:blink 1s step-start infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<section>
+  <div class="container glow">
+    <h1 class="type cursor" data-text="D1AM0ND5"></h1>
+    <p class="type cursor" data-text="> Roblox Developer | AI Systems | Advanced Scripting"></p>
+    <a href="#projectVideo" class="btn type cursor" data-text="WATCH DEMO"></a>
+  </div>
+</section>
+
+<section id="projectVideo">
+  <div class="container glow">
+    <h2 class="glow type cursor" data-text="Project Demo Video"></h2>
+    <div class="type cursor" data-text="A Custom Inventory System made purly via me(D1AM0ND5) from scripting to UI 
+    as its not a UI Showcase so don't expect good UI but the inventory system is fully functional and moduler as it can be used in any game and can be easily modified to fit the needs of the developer, it has a lot of features like sorting, filtering, equipping, and much more. It is also fully tested and is ensured that there is no loophole in it for eploits
+    
+    Main functions
+    1. Slots: Inventory system have a setting for how many slots a player inventory can have it can be easily changed via setting for more slot in inventory or less slot in inventory.
+
+    2. Secure Data Saving: the inventory system have a secure data saving system that ensures that the player data is saved securely and is not lost due to any reason. Same when loading player inventory data. 
+
+    3. Server Side security: All the inventory data of every player is load, saved and updated only on server which make this system anti-exploitable as there is no way for the exploiter to access the inventory data of any player including themselves.
+    
+    4. Hotbar and Drop: this system include selecting items and dropping item from inventory to the world and picking them up again, it is fully functional and can be easily modified to fit the needs of the developer. Also it include adding items to hotbar and selecting them from hotbar.
+    "></div>
+  
+<div style="margin-top:30px; text-align:center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pMedFpUPHeg?si=yHZBVcMO7GVb4gXI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</section>
+
+
+<script>
+// TYPEWRITER FUNCTION FOR TEXT ONLY
+function typeElement(el, speed = 25){
+  const fullText = el.dataset.text;
+  el.innerHTML = '';
+  let i = 0;
+  const typing = setInterval(()=>{
+    if(fullText.charAt(i) === '\n') el.innerHTML += '<br>'; else el.innerHTML += fullText.charAt(i);
+    i++;
+    if(i >= fullText.length){ clearInterval(typing); }
+  }, speed);
+}
+
+const typeObserver = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting && !entry.target.dataset.typed){
+      entry.target.dataset.typed = 'true';
+      typeElement(entry.target, 20);
+    }
+  });
+},{threshold:0.4});
+
+document.querySelectorAll('.type').forEach(el=>{ typeObserver.observe(el); });
+
+// MATRIX / BINARY BACKGROUND EFFECT
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const binaryChars = '01';
+const fontSize = 16;
+const columns = Math.floor(canvas.width / fontSize);
+const drops = [];
+for(let x=0; x<columns; x++) drops[x] = canvas.height + Math.random()*1000;
+function drawMatrix(){
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = '#00ff88';
+  ctx.font = fontSize + 'px Consolas';
+  for(let i=0; i<drops.length; i++){
+    const text = binaryChars.charAt(Math.floor(Math.random()*binaryChars.length));
+    ctx.fillText(text, i*fontSize, drops[i]);
+    drops[i] -= fontSize;
+    if(drops[i] < 0) drops[i] = canvas.height + Math.random()*1000;
+  }
+  requestAnimationFrame(drawMatrix);
+}
+requestAnimationFrame(drawMatrix);
+window.addEventListener('resize', ()=>{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
