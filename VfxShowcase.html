@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D1AM0ND5 Portfolio</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Consolas,monospace}
+body{background:#000;color:#00ff88;overflow-x:hidden;position:relative}
+
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+.glow{text-shadow:0 0 8px #00ff88,0 0 20px #00ff88}
+
+section{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:60px 10%;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(1px);
+  position:relative;
+  z-index:1;
+}
+
+.container{max-width:1100px;width:100%}
+
+h1{font-size:70px}
+h2{font-size:40px;margin-bottom:20px}
+p{color:#00cc66;font-size:18px;line-height:1.6}
+
+.btn{
+ display:inline-block;
+ margin-top:30px;
+ padding:12px 30px;
+ border:1px solid #00ff88;
+ color:#00ff88;
+ text-decoration:none;
+ transition:.3s;
+}
+.btn:hover{
+ background:#00ff88;
+ color:#000;
+ box-shadow:0 0 15px #00ff88;
+}
+
+.cards{display:flex;gap:30px;flex-wrap:wrap;margin-top:40px}
+.card{
+ flex:1 1 280px;
+ padding:25px;
+ border:1px solid #003322;
+ background:rgba(0,255,136,0.05);
+ transition:.4s;
+}
+.card:hover{
+ transform:scale(1.05);
+ box-shadow:0 0 20px #00ff88;
+}
+
+footer{text-align:center;padding:40px 0;color:#006644}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<footer>© 2026 D1AM0ND5 | SYSTEM ONLINE</footer>
+
+<script>
+// =============================
+// BINARY RISE EFFECT
+// =============================
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas(){
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const particles = [];
+
+function spawnBinary(){
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: canvas.height + 10,
+    value: Math.random() > 0.5 ? "0" : "1",
+    speed: 0.5 + Math.random() * 1.5,
+    opacity: 1,
+    size: 14 + Math.random() * 8
+  });
+}
+
+function animateBinary(){
+  ctx.fillStyle = "rgba(0,0,0,0.2)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  for(let i = particles.length - 1; i >= 0; i--){
+    const p = particles[i];
+    p.y -= p.speed;
+    p.opacity -= 0.003;
+
+    ctx.globalAlpha = p.opacity;
+    ctx.fillStyle = "#00ff88";
+    ctx.font = p.size + "px monospace";
+    ctx.fillText(p.value, p.x, p.y);
+    ctx.globalAlpha = 1;
+
+    if(p.opacity <= 0){
+      particles.splice(i,1);
+    }
+  }
+  requestAnimationFrame(animateBinary);
+}
+
+setInterval(spawnBinary, 80);
+animateBinary();
+
+// =============================
+// COUNTERS (MOBILE FIXED)
+// =============================
+function animateCounter(id, target){
+  const el = document.getElementById(id);
+  if(!el || el.dataset.started) return;
+
+  el.dataset.started = "true"; // prevent multiple triggers
+
+  let current = 0;
+
+  // dynamic speed based on number size
+  const duration = target < 100 ? 2000 : 3000; // total animation time
+  const frameRate = 30;
+  const totalFrames = duration / frameRate;
+  const increment = target / totalFrames;
+
+  const counter = setInterval(()=>{
+    current += increment;
+
+    if(current >= target){
+      current = target;
+      clearInterval(counter);
+    }
+
+    el.textContent = Math.floor(current).toLocaleString();
+  }, frameRate);
+}
+
+// Better mobile detection
+const aboutSection = document.getElementById('about');
+
+const aboutObserver = new IntersectionObserver((entries, observer)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      animateCounter('expCount', 36);
+      animateCounter('visitCount', 10000);
+
+      observer.unobserve(aboutSection); // run only once
+    }
+  });
+},{
+  threshold: 0.2,        // lower for mobile
+  rootMargin: "0px 0px -100px 0px" // triggers slightly earlier
+});
+
+aboutObserver.observe(aboutSection);
+// =============================
+// TYPEWRITER ON VIEW
+// =============================
+
+function typeElement(el, speed = 25){
+  if(!el.dataset.text){
+    el.dataset.text = el.innerHTML;
+  }
+
+  const fullText = el.dataset.text;
+  el.innerHTML = "";
+  let i = 0;
+
+  const typing = setInterval(()=>{
+    el.innerHTML += fullText.charAt(i);
+    i++;
+    if(i >= fullText.length){
+      clearInterval(typing);
+    }
+  }, speed);
+}
+
+const typeObserver = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting && !entry.target.dataset.typed){
+      entry.target.dataset.typed = "true";
+      typeElement(entry.target, 20);
+    }
+  });
+},{threshold:0.4});
+
+document.querySelectorAll('.type').forEach(el=>{
+  typeObserver.observe(el);
+});
+
+</script>
+
+</body>
+</html>

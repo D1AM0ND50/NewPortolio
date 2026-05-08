@@ -1,270 +1,611 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D1AM0ND5 Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diamond Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Consolas,monospace}
-body{background:#000;color:#00ff88;overflow-x:hidden;position:relative}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
 
-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffffff, #e9f6ff);
+      color: black;
+      overflow-x: hidden;
+    }
 
-.glow{text-shadow:0 0 8px #00ff88,0 0 20px #00ff88}
+    /* Animated Diamond Background */
+    .bg-diamond {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      z-index: -1;
+    }
 
-section{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:60px 10%;
-  background:rgba(0,0,0,0.35);
-  backdrop-filter:blur(1px);
-  position:relative;
-  z-index:1;
-}
+    .diamond {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: rgba(255,255,255,0.5);
+      border: 2px solid rgba(0,0,0,0.1);
+      transform: rotate(45deg);
+      animation: float 12s linear infinite;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
 
-.container{max-width:1100px;width:100%}
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(45deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120vh) rotate(405deg);
+        opacity: 0;
+      }
+    }
 
-h1{font-size:70px}
-h2{font-size:40px;margin-bottom:20px}
-p{color:#00cc66;font-size:18px;line-height:1.6}
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 8%;
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
 
-.btn{
- display:inline-block;
- margin-top:30px;
- padding:12px 30px;
- border:1px solid #00ff88;
- color:#00ff88;
- text-decoration:none;
- transition:.3s;
-}
-.btn:hover{
- background:#00ff88;
- color:#000;
- box-shadow:0 0 15px #00ff88;
-}
+    .logo {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
 
-.cards{display:flex;gap:30px;flex-wrap:wrap;margin-top:40px}
-.card{
- flex:1 1 280px;
- padding:25px;
- border:1px solid #003322;
- background:rgba(0,255,136,0.05);
- transition:.4s;
-}
-.card:hover{
- transform:scale(1.05);
- box-shadow:0 0 20px #00ff88;
-}
+    nav a {
+      text-decoration: none;
+      color: black;
+      margin-left: 25px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
 
-footer{text-align:center;padding:40px 0;color:#006644}
-</style>
+    nav a:hover {
+      opacity: 0.6;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .hero h1 {
+      font-size: 80px;
+      font-weight: 800;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #000000, #777777, #ffffff, #777777, #000000);
+      background-size: 400% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 6s linear infinite;
+    }
+
+    @keyframes shine {
+      0% {
+        background-position: 0% center;
+      }
+      100% {
+        background-position: 400% center;
+      }
+    }
+
+    .typing {
+      margin-top: 15px;
+      font-size: 24px;
+      font-weight: 500;
+      border-right: 3px solid black;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 4s steps(35,end) forwards, blink .7s infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 480px }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+
+    .btn {
+      margin-top: 40px;
+      padding: 16px 40px;
+      border-radius: 50px;
+      background: black;
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.4s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .btn:hover {
+      transform: translateY(-5px) scale(1.03);
+    }
+
+    section {
+      padding: 120px 8%;
+    }
+
+    .section-title {
+      font-size: 52px;
+      margin-bottom: 50px;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+      gap: 40px;
+      align-items: center;
+    }
+
+    .about-card {
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      transition: 0.4s;
+    }
+
+    .about-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .about-card h3 {
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+
+    .about-card p {
+      line-height: 1.8;
+      font-size: 17px;
+    }
+
+    /* Project Cards */
+    .projects-grid {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 90px;
+      overflow: hidden;
+      padding: 80px 0;
+    }
+
+    .projects-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .project-card:nth-child(odd) {
+      transform: translateX(-420px) scale(0.75);
+      align-self: flex-start;
+      margin-left: -60px;
+    }
+
+    .project-card:nth-child(even) {
+      transform: translateX(420px) scale(0.75);
+      align-self: flex-end;
+      margin-right: -60px;
+    }
+
+    .project-card.show:nth-child(odd) {
+      transform: translateX(0) scale(0.92);
+    }
+
+    .project-card.show:nth-child(even) {
+      transform: translateX(0) scale(0.92);
+    }
+
+    .project-card {
+      position: relative;
+      background: black;
+      color: white;
+      border-radius: 30px;
+      overflow: hidden;
+      min-height: 320px;
+      width: 72%;
+      max-width: 720px;
+      transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      cursor: pointer;
+      opacity: 0;
+      animation: floatRotate 5s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    .project-card:hover {
+      transform: translateY(-20px) scale(1.08) rotate(4deg) !important;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.45);
+    }
+
+    @keyframes floatRotate {
+      0% {
+        rotate: -2deg;
+      }
+
+      50% {
+        rotate: 2deg;
+      }
+
+      100% {
+        rotate: -2deg;
+      }
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+      filter: blur(1px);
+      opacity: 0;
+      z-index: 2;
+    }
+
+    .project-card.show::before {
+      animation: sparkle 1.4s ease forwards;
+    }
+
+    @keyframes sparkle {
+      0% {
+        opacity: 1;
+        transform: translate(0,0) scale(0.4);
+        box-shadow:
+          0 0 0 white,
+          0 0 0 white,
+          0 0 0 white;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(180px,-90px) scale(2.5);
+        box-shadow:
+          120px -40px 25px rgba(255,255,255,0),
+          200px 30px 35px rgba(255,255,255,0),
+          260px -70px 30px rgba(255,255,255,0);
+      }
+    }
+
+    .project-card.show {
+      opacity: 1;
+    }
+
+    .project-image {
+      height: 220px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .project-content {
+      padding: 25px;
+    }
+
+    .project-content h3 {
+      margin-bottom: 10px;
+      font-size: 26px;
+    }
+
+    .project-content p {
+      color: #ddd;
+      line-height: 1.6;
+    }
+
+    /* Pricing */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 30px;
+    }
+
+    .price-box {
+      background: black;
+      color: white;
+      padding: 45px 30px;
+      border-radius: 25px;
+      text-align: center;
+      transition: 0.4s;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+    }
+
+    .price-box:hover {
+      transform: translateY(-10px);
+    }
+
+    .price-box h3 {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .price-box p {
+      font-size: 18px;
+      color: #ddd;
+    }
+
+    /* Contact */
+    .contact-box {
+      background: black;
+      color: white;
+      border-radius: 30px;
+      padding: 60px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    .contact-box h2 {
+      margin-bottom: 20px;
+      font-size: 48px;
+    }
+
+    .contact-box p {
+      margin-bottom: 35px;
+      color: #ccc;
+      font-size: 18px;
+    }
+
+    .contact-btn {
+      display: inline-block;
+      padding: 16px 38px;
+      background: white;
+      color: black;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.3s;
+    }
+
+    .contact-btn:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-weight: 500;
+    }
+
+    /* Scroll animation */
+    .hidden {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s;
+    }
+
+    .show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media(max-width:768px){
+      .hero h1 {
+        font-size: 52px;
+      }
+
+      .typing {
+        font-size: 18px;
+        width: auto;
+        border-right: none;
+        animation: none;
+      }
+
+      .section-title {
+        font-size: 38px;
+      }
+
+      header {
+        padding: 20px 5%;
+      }
+
+      nav {
+        display: none;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<canvas id="matrix"></canvas>
+<div class="bg-diamond">
+  <div class="diamond" style="left:5%; animation-delay:0s"></div>
+  <div class="diamond" style="left:25%; animation-delay:2s"></div>
+  <div class="diamond" style="left:45%; animation-delay:4s"></div>
+  <div class="diamond" style="left:65%; animation-delay:1s"></div>
+  <div class="diamond" style="left:85%; animation-delay:5s"></div>
+</div>
 
-<section>
-  <div class="container glow">
-    <h1 class="type">D1AM0ND5</h1>
-    <p class="type">> Roblox Developer | AI Systems | Advanced Scripting</p>
-    <a href="#projects" class="btn type">ACCESS PROJECTS</a>
-  </div>
+<header>
+  <div class="logo">DIAMOND</div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Diamond Portfolio</h1>
+  <div class="typing">Crafting premium digital experiences.</div>
+  <a href="#projects" class="btn">Explore My Work</a>
 </section>
 
 <section id="about">
-  <div class="container">
-    <h2 class="glow type">About.exe</h2>
-    <p>
-      Initializing developer profile...<br><br>
-      Name: D1AM0ND5<br>
-      Experience: <span id="expCount">0</span> Months<br>
-      Visit Contributed: <span id="visitCount">0</span>+<br>
-      Systems Built: AI NPCs, Tycoons, Combat Engines<br>
-      Status: ACTIVE<br><br>
+  <h2 class="section-title hidden">About Me</h2>
 
-      AboutMe:<br>
-      Started to learn Roblox Studio in 2023 through YouTube. 2024 was my main production year where I applied everything I learned into real projects, earned thousands of Robux, and built a strong reputation in the community. Published multiple free VFX assets in the toolbox to help other developers. Joined RoDevs in 2025 and completed 100+ commissions.<br><br>
+  <div class="about">
+    <div class="about-card hidden">
+      <h3>Who Am I?</h3>
+      <p>
+        I am Diamond — a digital creator and Roblox developer focused on building futuristic systems, visual effects, scripting solutions, and immersive gameplay experiences.
+      </p>
+    </div>
 
-      Currently Working On:<br>
-      1. SCP Site 74: a Horror SCP type game which contains a lot of scp and custom mechanices which are unique to any normal SCP game. Working as Scripter who will develop all UI and SCP behaviors and AI. <br><br>
-    </p>
+    <div class="about-card hidden">
+      <h3>Experience</h3>
+      <p>
+        With 2–3 years of experience and more than 50 clients served, I focus on high-quality work, modern visuals, and scalable systems.
+      </p>
+    </div>
   </div>
 </section>
 
 <section id="projects">
-  
-    <div class="container">
-      <h2 class="glow type">Projects.log</h2><br><br>
-      <h3 class="glow type">Scripting</h3>
-      <div class="cards">
-        <div class="card">
-          <h3 class="type">Battleground Mechanics</h3>
-          <p class="type">4 Hit combo with 4 unique Abilities and QudraDirectional Dash</p>
-          <a href="ProjectShowcase.html" target="_blank" class="btn type">VIEW PROJECT</a>
-        </div>
-        <div class="card">
-          <h3 class="type">2 Abilities showcase</h3>
-          <p class="type">This game was cancelled by the studios</p>
-          <a href="ProjectShowcase2.html" target="_blank" class="btn type">VIEW PROJECT</a>
-        </div>
-        <div class="card">
-          <h3 class="type">Inventory system Showcase</h3>
-          <p class="type">Working inventory system with anticheat</p>
-          <a href="ProjectShowcase3.html" target="_blank" class="btn type">VIEW PROJECT</a>
-        </div>
+  <div style="display:flex; justify-content:center; margin-bottom:50px;">
+    <input
+      type="text"
+      id="projectSearch"
+      placeholder="Search past work..."
+      style="
+        width: min(600px, 90%);
+        padding: 18px 24px;
+        border-radius: 50px;
+        border: 2px solid rgba(0,0,0,0.08);
+        background: rgba(255,255,255,0.7);
+        backdrop-filter: blur(12px);
+        font-size: 18px;
+        font-family: Poppins, sans-serif;
+        outline: none;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+        transition: 0.4s;
+      "
+      oninput="searchProjects()"
+    />
+  </div>
+  <h2 class="section-title hidden">Featured Projects</h2>
+
+  <div class="projects-grid">
+
+    <div class="project-card hidden searchable-card" data-title="Battleground Mechanices" data-description="Advanced battleground mechanics for immersive Roblox experiences." onclick="window.open('ProjectShowcase.html','_blank')">
+      <div class="project-image" style="background-image:url('https://img.youtube.com/vi/he-FwNC95bo/maxresdefault.jpg')"></div>
+      <div class="project-content">
+        <h3>Battleground Mechanices</h3>
+        <p>Advanced battleground mechanics for immersive Roblox experiences.</p>
       </div>
     </div>
-</section>
 
-<section>
-  <div class="container">
-    <h2 class="glow type">Collaborate.sys</h2>
-    <p class="type">Open for commissions & long-term development contracts.</p>
-    <a href="https://discord.com/users/879769812346236988" target="_blank" class="btn type">Discord</a><br>
-    <a href="mailto:diamondworking36@gmail.com" target="_blank" class="btn type">Email</a>
+    <div class="project-card hidden searchable-card" data-title="Powerfull Abilities" data-description="High quality Abilities with stunning visual effects. and anti-cheat measures." onclick="window.open('https://example.com','_blank')">
+      <div class="project-image" style="background-image:url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop')"></div>
+      <div class="project-content">
+        <h3>Powerfull Abilities</h3>
+        <p>High quality Abilities with stunning visual effects. and anti-cheat measures.</p>
+      </div>
+    </div>
+
+    <div class="project-card hidden searchable-card" data-title="Custom Inventory System" data-description="Custom Scalable Inventory System for Roblox game development." onclick="window.open('https://example.com','_blank')">
+      <div class="project-image" style="background-image:url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop')"></div>
+      <div class="project-content">
+        <h3>Custom Inventory System</h3>
+        <p>Custom Scalable Inventory System for Roblox game development.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<footer>© 2026 D1AM0ND5 | SYSTEM ONLINE</footer>
+<section id="pricing">
+  <h2 class="section-title hidden">Pricing</h2>
+
+  <div class="pricing-grid">
+
+    <div class="price-box hidden">
+      <h3>Scripting</h3>
+      <p>Starting from 1500 RBX or $10</p>
+    </div>
+
+    <div class="price-box hidden">
+      <h3>Visual Effects</h3>
+      <p>Starting from 700 RBX or $5</p>
+    </div>
+
+    <div class="price-box hidden">
+      <h3>Animation</h3>
+      <p>Starting from 700 RBX or $5</p>
+    </div>
+
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-box hidden">
+    <h2>Let's Work Together</h2>
+    <p>Interested in premium scripting, VFX, or animations? Reach out now.</p>
+    <a class="contact-btn" href="mailto:diamondworking36@gmail.com">Contact Me</a>
+  </div>
+</section>
+
+<footer>
+  © 2026 Diamond Portfolio. All Rights Reserved.
+</footer>
 
 <script>
-// =============================
-// BINARY RISE EFFECT
-// =============================
-const canvas = document.getElementById('matrix');
-const ctx = canvas.getContext('2d');
 
-function resizeCanvas(){
-  canvas.height = window.innerHeight;
-  canvas.width = window.innerWidth;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-const particles = [];
-
-function spawnBinary(){
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: canvas.height + 10,
-    value: Math.random() > 0.5 ? "0" : "1",
-    speed: 0.5 + Math.random() * 1.5,
-    opacity: 1,
-    size: 14 + Math.random() * 8
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('show');
+      }
+    });
   });
-}
 
-function animateBinary(){
-  ctx.fillStyle = "rgba(0,0,0,0.2)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
+  const hiddenElements = document.querySelectorAll('.hidden');
+  hiddenElements.forEach((el) => observer.observe(el));
 
-  for(let i = particles.length - 1; i >= 0; i--){
-    const p = particles[i];
-    p.y -= p.speed;
-    p.opacity -= 0.003;
+  function searchProjects() {
+    const input = document.getElementById('projectSearch').value.toLowerCase();
+    const cards = document.querySelectorAll('.searchable-card');
 
-    ctx.globalAlpha = p.opacity;
-    ctx.fillStyle = "#00ff88";
-    ctx.font = p.size + "px monospace";
-    ctx.fillText(p.value, p.x, p.y);
-    ctx.globalAlpha = 1;
+    cards.forEach(card => {
+      const title = card.dataset.title.toLowerCase();
+      const desc = card.dataset.description.toLowerCase();
 
-    if(p.opacity <= 0){
-      particles.splice(i,1);
-    }
+      if(input === '') {
+        card.style.display = 'block';
+      }
+      else if(title.includes(input) || desc.includes(input)) {
+        card.style.display = 'block';
+      }
+      else {
+        card.style.display = 'none';
+      }
+    });
   }
-  requestAnimationFrame(animateBinary);
-}
-
-setInterval(spawnBinary, 80);
-animateBinary();
-
-// =============================
-// COUNTERS (MOBILE FIXED)
-// =============================
-function animateCounter(id, target){
-  const el = document.getElementById(id);
-  if(!el || el.dataset.started) return;
-
-  el.dataset.started = "true"; // prevent multiple triggers
-
-  let current = 0;
-
-  // dynamic speed based on number size
-  const duration = target < 100 ? 2000 : 3000; // total animation time
-  const frameRate = 30;
-  const totalFrames = duration / frameRate;
-  const increment = target / totalFrames;
-
-  const counter = setInterval(()=>{
-    current += increment;
-
-    if(current >= target){
-      current = target;
-      clearInterval(counter);
-    }
-
-    el.textContent = Math.floor(current).toLocaleString();
-  }, frameRate);
-}
-
-// Better mobile detection
-const aboutSection = document.getElementById('about');
-
-const aboutObserver = new IntersectionObserver((entries, observer)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      animateCounter('expCount', 36);
-      animateCounter('visitCount', 10000);
-
-      observer.unobserve(aboutSection); // run only once
-    }
-  });
-},{
-  threshold: 0.2,        // lower for mobile
-  rootMargin: "0px 0px -100px 0px" // triggers slightly earlier
-});
-
-aboutObserver.observe(aboutSection);
-// =============================
-// TYPEWRITER ON VIEW
-// =============================
-
-function typeElement(el, speed = 25){
-  if(!el.dataset.text){
-    el.dataset.text = el.innerHTML;
-  }
-
-  const fullText = el.dataset.text;
-  el.innerHTML = "";
-  let i = 0;
-
-  const typing = setInterval(()=>{
-    el.innerHTML += fullText.charAt(i);
-    i++;
-    if(i >= fullText.length){
-      clearInterval(typing);
-    }
-  }, speed);
-}
-
-const typeObserver = new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting && !entry.target.dataset.typed){
-      entry.target.dataset.typed = "true";
-      typeElement(entry.target, 20);
-    }
-  });
-},{threshold:0.4});
-
-document.querySelectorAll('.type').forEach(el=>{
-  typeObserver.observe(el);
-});
-
 </script>
 
 </body>
