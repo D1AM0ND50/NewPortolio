@@ -1,117 +1,397 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D1AM0ND5 | Hacker Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diamond Template</title>
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Consolas,monospace}
-body{background:#000;color:#00ff88;overflow-x:hidden;position:relative}
-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
-.glow{text-shadow:0 0 8px #00ff88,0 0 20px #00ff88}
-section{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:60px 10%;background:rgba(0,0,0,0.35);backdrop-filter:blur(1px);position:relative;z-index:1}
-.container{max-width:1100px;width:100%}
-h1{font-size:70px}
-h2{font-size:40px;margin-bottom:20px}
-p{color:#00cc66;font-size:18px;line-height:1.6;white-space:pre-wrap}
-.btn{display:inline-block;margin-top:30px;padding:12px 30px;border:1px solid #00ff88;color:#00ff88;text-decoration:none;transition:.3s}
-.btn:hover{background:#00ff88;color:#000;box-shadow:0 0 15px #00ff88}
-.cards{display:flex;gap:30px;flex-wrap:wrap;margin-top:40px}
-.card{flex:1 1 280px;padding:25px;border:1px solid #003322;background:rgba(0,255,136,0.05);transition:.4s}
-.card:hover{transform:scale(1.05);box-shadow:0 0 20px #00ff88}
-footer{text-align:center;padding:40px 0;color:#006644}
-.type.cursor::after{content:'|';animation:blink 1s step-start infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffffff, #eef7ff);
+      color: black;
+      overflow-x: hidden;
+    }
+
+    /* Animated Diamond Background */
+    .background {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: -2;
+    }
+
+    .diamond {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      border-radius: 12px;
+      transform: rotate(45deg);
+      background: rgba(255,255,255,0.35);
+      border: 1px solid rgba(0,0,0,0.08);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 25px rgba(0,0,0,0.08);
+      animation: float 14s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(45deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-120vh) rotate(405deg);
+        opacity: 0;
+      }
+    }
+
+    /* NAVBAR */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 8%;
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg,#000,#666,#000);
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 5s linear infinite;
+    }
+
+    @keyframes shine {
+      0% {
+        background-position: 0% center;
+      }
+
+      100% {
+        background-position: 300% center;
+      }
+    }
+
+    nav {
+      display: flex;
+      gap: 28px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: black;
+      font-weight: 600;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0%;
+      height: 2px;
+      background: black;
+      transition: 0.3s;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .hero h1 {
+      font-size: 88px;
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1;
+      background: linear-gradient(90deg,#000,#888,#fff,#888,#000);
+      background-size: 400% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 6s linear infinite;
+    }
+
+    .hero p {
+      margin-top: 24px;
+      font-size: 22px;
+      color: #333;
+      max-width: 800px;
+      line-height: 1.7;
+    }
+
+    .hero-btn {
+      margin-top: 40px;
+      padding: 16px 40px;
+      border-radius: 60px;
+      text-decoration: none;
+      background: black;
+      color: white;
+      font-weight: 700;
+      transition: 0.4s;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+
+    .hero-btn:hover {
+      transform: translateY(-6px) scale(1.03);
+    }
+
+    /* SECTION */
+    section {
+      padding: 120px 8%;
+      position: relative;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 52px;
+      font-weight: 800;
+      margin-bottom: 70px;
+    }
+
+    /* TEMPLATE CARDS */
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+      gap: 35px;
+    }
+
+    .template-card {
+      background: black;
+      color: white;
+      border-radius: 28px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+      transition: 0.5s cubic-bezier(0.22,1,0.36,1);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.18);
+      min-height: 260px;
+      animation: cardFloat 5s ease-in-out infinite;
+    }
+
+    .template-card:nth-child(2) {
+      animation-delay: 1s;
+    }
+
+    .template-card:nth-child(3) {
+      animation-delay: 2s;
+    }
+
+    @keyframes cardFloat {
+      0% {
+        transform: rotate(-1.5deg) translateY(0px);
+      }
+
+      50% {
+        transform: rotate(1.5deg) translateY(-8px);
+      }
+
+      100% {
+        transform: rotate(-1.5deg) translateY(0px);
+      }
+    }
+
+    .template-card:hover {
+      transform: scale(1.05) rotate(3deg);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.28);
+    }
+
+    .template-card::before {
+      content: '';
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+      top: -70px;
+      right: -70px;
+    }
+
+    .template-card h3 {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .template-card p {
+      line-height: 1.7;
+      color: #ddd;
+    }
+
+    /* GLASS BOX */
+    .glass-box {
+      background: rgba(255,255,255,0.6);
+      border: 1px solid rgba(0,0,0,0.06);
+      backdrop-filter: blur(14px);
+      border-radius: 30px;
+      padding: 60px;
+      box-shadow: 0 15px 45px rgba(0,0,0,0.08);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 40px;
+      font-weight: 600;
+    }
+
+    /* SCROLL ANIMATIONS */
+    .hidden {
+      opacity: 0;
+      transform: translateY(60px);
+      transition: all 1s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    .show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* MOBILE */
+    @media(max-width:768px) {
+      .hero h1 {
+        font-size: 56px;
+      }
+
+      .hero p {
+        font-size: 18px;
+      }
+
+      .section-title {
+        font-size: 40px;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .glass-box {
+        padding: 35px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<canvas id="matrix"></canvas>
-
-<section>
-  <div class="container glow">
-    <h1 class="type cursor" data-text="D1AM0ND5"></h1>
-    <p class="type cursor" data-text="> Roblox Developer | AI Systems | Advanced Scripting"></p>
-    <a href="#projectVideo" class="btn type cursor" data-text="WATCH DEMO"></a>
+  <!-- BACKGROUND -->
+  <div class="background">
+    <div class="diamond" style="left:5%; animation-delay:0s"></div>
+    <div class="diamond" style="left:18%; animation-delay:2s"></div>
+    <div class="diamond" style="left:35%; animation-delay:4s"></div>
+    <div class="diamond" style="left:55%; animation-delay:1s"></div>
+    <div class="diamond" style="left:72%; animation-delay:6s"></div>
+    <div class="diamond" style="left:88%; animation-delay:3s"></div>
   </div>
-</section>
 
-<section id="projectVideo">
-  <div class="container glow">
-    <h2 class="glow type cursor" data-text="Project Demo Video"></h2>
-    <div class="type cursor" data-text="2 Abilities fully made by me(D1AM0ND5) from vfx to scripting,
-    
-    Abilities:
-        1. SpineBreaker: a powerfull grab and hit ability in which the character grabs the enemy and
-        Give two big firy blows and smash them away witha firy kick, making them stun for a shot duration.
+  <!-- HEADER -->
+  <header>
+    <div class="logo">DIAMOND</div>
 
-        2. FiryCounter: a counter ability in which the character takes a defensive stance and if hit during that time, 
-        it will grab the hand and give a firy blow kniocking the enemy far and run toward the enemy and jump on it to give a firy slam for a finisher.
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Projects</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
 
-    all the moves are well designed and and entirly made by me which include Scripting, VFX , Animations and Sounds. it is fully tested
-    and is ensured that there is no loophole in them for eploits 
-    "></div>
-  
-<div style="margin-top:30px; text-align:center;">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ojjSQm71pfU?si=Nht47zVJxC447dlq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/fWld-8f18Vc?si=0nEeSW4zW0YVjelc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</section>
+  <!-- HERO -->
+  <section class="hero">
+    <h1>VFX Showcase</h1>
 
+    <p>
+      Showcase Webpage for my VFX Showcase project. This project is a showcase of my Visual Effects Skills.
+    </p>
 
-<script>
-// TYPEWRITER FUNCTION FOR TEXT ONLY
-function typeElement(el, speed = 25){
-  const fullText = el.dataset.text;
-  el.innerHTML = '';
-  let i = 0;
-  const typing = setInterval(()=>{
-    if(fullText.charAt(i) === '\n') el.innerHTML += '<br>'; else el.innerHTML += fullText.charAt(i);
-    i++;
-    if(i >= fullText.length){ clearInterval(typing); }
-  }, speed);
-}
+    <a href="#content" class="hero-btn">Explore Template</a>
+  </section>
 
-const typeObserver = new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting && !entry.target.dataset.typed){
-      entry.target.dataset.typed = 'true';
-      typeElement(entry.target, 20);
-    }
-  });
-},{threshold:0.4});
+  <!-- CONTENT -->
+  <section id="content">
+    <h2 class="section-title hidden">Template Components</h2>
 
-document.querySelectorAll('.type').forEach(el=>{ typeObserver.observe(el); });
+    <div class="template-grid">
 
-// MATRIX / BINARY BACKGROUND EFFECT
-const canvas = document.getElementById('matrix');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-const binaryChars = '01';
-const fontSize = 16;
-const columns = Math.floor(canvas.width / fontSize);
-const drops = [];
-for(let x=0; x<columns; x++) drops[x] = canvas.height + Math.random()*1000;
-function drawMatrix(){
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = '#00ff88';
-  ctx.font = fontSize + 'px Consolas';
-  for(let i=0; i<drops.length; i++){
-    const text = binaryChars.charAt(Math.floor(Math.random()*binaryChars.length));
-    ctx.fillText(text, i*fontSize, drops[i]);
-    drops[i] -= fontSize;
-    if(drops[i] < 0) drops[i] = canvas.height + Math.random()*1000;
-  }
-  requestAnimationFrame(drawMatrix);
-}
-requestAnimationFrame(drawMatrix);
-window.addEventListener('resize', ()=>{
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-</script>
+      <div class="template-card hidden">
+        <h3>Project Overview</h3>
+        <p>
+          This project is a showcase of my Visual Effects Skills. This project contain different type of visual effects with different styles.
+        </p>
+      </div>
+
+      <div class="template-card hidden">
+        <h3>Project Information</h3>
+        <p>
+            Project Name: VFX Showcase<br>
+            Project Type: Visual Effects<br>
+            Project Status: Development<br>
+            Project Description: This project is based on the Battleground mechanics. Multiple systems are connected for a better experience.<br><br>
+        </p>
+      </div>
+  </section>
+
+  <!-- GLASS SECTION -->
+  <section>
+    <div class="glass-box hidden">
+      <h2 style="font-size:48px; margin-bottom:20px;">Project Details</h2>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/ojjSQm71pfU?si=3R-QmNXlnULInjGl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br><br>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/fWld-8f18Vc?si=_JXchB5yoRqYsf0d" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br><br>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/vEgZ6mGSF0Y?si=dzrVFi4zHQ8meV5o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2026 Diamond. Designed for expandable websites.
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if(entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    });
+
+    document.querySelectorAll('.hidden').forEach((el) => {
+      observer.observe(el);
+    });
+  </script>
 
 </body>
 </html>
