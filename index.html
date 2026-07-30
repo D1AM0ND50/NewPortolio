@@ -16,48 +16,46 @@
       scroll-behavior: smooth;
     }
 
+    :root {
+      --bg1: #0d0000;
+      --bg2: #5c0000;
+      --bg-angle: 135deg;
+      --accent: #ff4747;
+      --accent-rgb: 255,71,71;
+      --card1: #ffd166;
+      --card2: #ff9900;
+      --card-text: #1a1000;
+      --card-glow: rgba(255,153,0,0.45);
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ffffff, #e9f6ff);
+      background: linear-gradient(var(--bg-angle), var(--bg1), var(--bg2));
+      background-attachment: fixed;
       color: black;
       overflow-x: hidden;
     }
 
-    /* Animated Diamond Background */
-    .bg-diamond {
+    /* mouse / touch follow light source */
+    #spotlight {
       position: fixed;
-      width: 100%;
-      height: 100%;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      background: radial-gradient(circle 320px at var(--mx,50%) var(--my,25%), rgba(var(--accent-rgb),0.35), transparent 70%);
+    }
+
+    /* Interactive particle field: replaces the old floating diamonds.
+       Small dots drift slowly and light up a "bond" line to your cursor
+       (and to each other) when they get close — drawn on canvas in JS. */
+    #particles {
+      position: fixed;
       top: 0;
       left: 0;
-      overflow: hidden;
+      width: 100%;
+      height: 100%;
       z-index: -1;
-    }
-
-    .diamond {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      background: rgba(255,255,255,0.5);
-      border: 2px solid rgba(0,0,0,0.1);
-      transform: rotate(45deg);
-      animation: float 12s linear infinite;
-      backdrop-filter: blur(4px);
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(100vh) rotate(45deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-120vh) rotate(405deg);
-        opacity: 0;
-      }
     }
 
     header {
@@ -105,7 +103,7 @@
       font-size: 80px;
       font-weight: 800;
       text-transform: uppercase;
-      background: linear-gradient(90deg, #000000, #777777, #ffffff, #777777, #000000);
+      background: linear-gradient(90deg, #ffffff, #ff4747, #ffffff, #ff4747, #ffffff);
       background-size: 400% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -125,7 +123,8 @@
       margin-top: 15px;
       font-size: 24px;
       font-weight: 500;
-      border-right: 3px solid black;
+      color: #f2f2f2;
+      border-right: 3px solid #f2f2f2;
       white-space: nowrap;
       overflow: hidden;
       width: 0;
@@ -145,16 +144,18 @@
       margin-top: 40px;
       padding: 16px 40px;
       border-radius: 50px;
-      background: black;
-      color: white;
+      background: linear-gradient(135deg, var(--card1), var(--card2));
+      color: var(--card-text);
       text-decoration: none;
       font-weight: 700;
-      transition: 0.4s;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+      box-shadow: 0 10px 30px var(--card-glow);
+      display: inline-block;
+      will-change: transform;
     }
 
     .btn:hover {
-      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 15px 40px var(--card-glow);
     }
 
     section {
@@ -181,7 +182,7 @@
       border-radius: 30px;
       padding: 40px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-      transition: 0.4s;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
     }
 
     .about-card:hover {
@@ -235,15 +236,15 @@
 
     .project-card {
       position: relative;
-      background: black;
-      color: white;
+      background: linear-gradient(135deg, var(--card1), var(--card2));
+      color: var(--card-text);
       border-radius: 30px;
       overflow: hidden;
       min-height: 320px;
       width: 72%;
       max-width: 720px;
       transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      box-shadow: 0 20px 50px var(--card-glow);
       cursor: pointer;
       opacity: 0;
       animation: floatRotate 5s ease-in-out infinite;
@@ -252,7 +253,7 @@
 
     .project-card:hover {
       transform: translateY(-20px) scale(1.08) rotate(4deg) !important;
-      box-shadow: 0 40px 100px rgba(0,0,0,0.45);
+      box-shadow: 0 40px 100px var(--card-glow);
     }
 
     @keyframes floatRotate {
@@ -342,7 +343,7 @@
       padding: 45px 30px;
       border-radius: 25px;
       text-align: center;
-      transition: 0.4s;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
       box-shadow: 0 10px 35px rgba(0,0,0,0.2);
     }
 
@@ -389,24 +390,106 @@
       border-radius: 50px;
       text-decoration: none;
       font-weight: 700;
-      transition: 0.3s;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+      will-change: transform;
     }
 
     .contact-btn:hover {
-      transform: scale(1.05);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.35);
     }
 
     footer {
       text-align: center;
       padding: 30px;
       font-weight: 500;
+      color: #f2f2f2;
+    }
+
+    /* Theme customization panel */
+    #themeToggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 200;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: none;
+      background: black;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      transition: 0.3s;
+    }
+    #themeToggle:hover {
+      transform: scale(1.08);
+    }
+
+    #themePanel {
+      position: fixed;
+      bottom: 88px;
+      right: 24px;
+      z-index: 200;
+      width: min(270px, 85vw);
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(14px);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+      font-family: 'Poppins', sans-serif;
+    }
+    #themePanel.hidden-panel {
+      display: none;
+    }
+    #themePanel h4 {
+      margin-bottom: 14px;
+      font-size: 15px;
+      font-weight: 700;
+    }
+    #themePanel label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      gap: 10px;
+    }
+    #themePanel input[type="color"] {
+      width: 38px;
+      height: 28px;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 6px;
+      background: none;
+      cursor: pointer;
+    }
+    #themePanel input[type="range"] {
+      width: 120px;
+    }
+    #resetTheme {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(0,0,0,0.1);
+      background: none;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    #resetTheme:hover {
+      background: black;
+      color: white;
     }
 
     /* Scroll animation */
     .hidden {
       opacity: 0;
       transform: translateY(40px);
-      transition: all 1s;
+      transition: all 1.1s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .show {
@@ -437,18 +520,36 @@
       nav {
         display: none;
       }
+
+      /*
+        Fix: on desktop, cards slide in from ±420px and get pulled further
+        off-center with a -60px margin + align-self flex-start/flex-end.
+        The parent .projects-grid has overflow:hidden to make that slide-in
+        effect work — but on narrow phone screens that same fixed 420px
+        offset and -60px margin push the card mostly or entirely outside
+        the visible area, and overflow:hidden then clips it, making it look
+        like the card "doesn't display". On mobile we drop the horizontal
+        slide/margins and just fade the cards up into place, centered.
+      */
+      .project-card:nth-child(odd),
+      .project-card:nth-child(even) {
+        transform: translateY(50px) scale(0.95);
+        align-self: center;
+        margin-left: 0;
+        margin-right: 0;
+        width: 90%;
+      }
+
+      .project-card.show:nth-child(odd),
+      .project-card.show:nth-child(even) {
+        transform: translateY(0) scale(1);
+      }
     }
   </style>
 </head>
 <body>
 
-<div class="bg-diamond">
-  <div class="diamond" style="left:5%; animation-delay:0s"></div>
-  <div class="diamond" style="left:25%; animation-delay:2s"></div>
-  <div class="diamond" style="left:45%; animation-delay:4s"></div>
-  <div class="diamond" style="left:65%; animation-delay:1s"></div>
-  <div class="diamond" style="left:85%; animation-delay:5s"></div>
-</div>
+<canvas id="particles"></canvas>
 
 <header>
   <div class="logo">DIAMOND</div>
@@ -574,6 +675,18 @@
   © 2026 Diamond Portfolio. All Rights Reserved.
 </footer>
 
+<div id="spotlight"></div>
+
+<button id="themeToggle" aria-label="Customize theme" aria-expanded="false">🎨</button>
+<div id="themePanel" class="hidden-panel">
+  <h4>Customize theme</h4>
+  <label>Color 1 <input type="color" id="bg1Input" value="#0d0000"></label>
+  <label>Color 2 <input type="color" id="bg2Input" value="#5c0000"></label>
+  <label>Angle <input type="range" id="angleInput" min="0" max="360" value="135"></label>
+  <label>Glow color <input type="color" id="accentInput" value="#ff4747"></label>
+  <button id="resetTheme">Reset to default</button>
+</div>
+
 <script>
 
   const observer = new IntersectionObserver((entries) => {
@@ -606,6 +719,225 @@
       }
     });
   }
+
+  // =============================
+  // MOUSE / TOUCH FOLLOW LIGHT SOURCE
+  // =============================
+  const rootEl = document.documentElement;
+  let spotlightRaf = null;
+
+  function setSpotlight(x, y) {
+    if (spotlightRaf) return;
+    spotlightRaf = requestAnimationFrame(() => {
+      rootEl.style.setProperty('--mx', x + 'px');
+      rootEl.style.setProperty('--my', y + 'px');
+      spotlightRaf = null;
+    });
+  }
+
+  window.addEventListener('mousemove', (e) => setSpotlight(e.clientX, e.clientY));
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      setSpotlight(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
+
+  // =============================
+  // INTERACTIVE PARTICLE DOTS
+  // (replaces the old floating diamonds — dots drift slowly and light up
+  // a "bond" line to the cursor, and to each other, when nearby)
+  // =============================
+  const particleCanvas = document.getElementById('particles');
+  const pctx = particleCanvas.getContext('2d');
+  let dotRGB = '255,71,71'; // kept in sync with the theme's accent color
+  let pw, ph, dots = [];
+
+  function resizeParticleCanvas() {
+    pw = particleCanvas.width = window.innerWidth;
+    ph = particleCanvas.height = window.innerHeight;
+  }
+
+  function initDots() {
+    const count = Math.min(80, Math.floor((pw * ph) / 18000));
+    dots = [];
+    for (let i = 0; i < count; i++) {
+      dots.push({
+        x: Math.random() * pw,
+        y: Math.random() * ph,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: 1.4 + Math.random() * 1.4
+      });
+    }
+  }
+
+  resizeParticleCanvas();
+  initDots();
+  window.addEventListener('resize', () => {
+    resizeParticleCanvas();
+    initDots();
+  });
+
+  const pointer = { x: -9999, y: -9999, active: false };
+  const CURSOR_BOND_RADIUS = 170;
+  const DOT_BOND_RADIUS = 110;
+
+  window.addEventListener('mousemove', (e) => {
+    pointer.x = e.clientX;
+    pointer.y = e.clientY;
+    pointer.active = true;
+  });
+  window.addEventListener('mouseleave', () => { pointer.active = false; });
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      pointer.x = e.touches[0].clientX;
+      pointer.y = e.touches[0].clientY;
+      pointer.active = true;
+    }
+  }, { passive: true });
+  window.addEventListener('touchend', () => { pointer.active = false; });
+
+  function drawParticles() {
+    pctx.clearRect(0, 0, pw, ph);
+
+    dots.forEach(d => {
+      d.x += d.vx;
+      d.y += d.vy;
+      if (d.x < 0 || d.x > pw) d.vx *= -1;
+      if (d.y < 0 || d.y > ph) d.vy *= -1;
+    });
+
+    // faint ambient bonds between nearby dots
+    for (let i = 0; i < dots.length; i++) {
+      for (let j = i + 1; j < dots.length; j++) {
+        const a = dots[i], b = dots[j];
+        const dist = Math.hypot(a.x - b.x, a.y - b.y);
+        if (dist < DOT_BOND_RADIUS) {
+          pctx.strokeStyle = `rgba(${dotRGB}, ${0.12 * (1 - dist / DOT_BOND_RADIUS)})`;
+          pctx.lineWidth = 1;
+          pctx.beginPath();
+          pctx.moveTo(a.x, a.y);
+          pctx.lineTo(b.x, b.y);
+          pctx.stroke();
+        }
+      }
+    }
+
+    // stronger glowing bond from nearby dots to the cursor/finger
+    if (pointer.active) {
+      dots.forEach(d => {
+        const dx = d.x - pointer.x, dy = d.y - pointer.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < CURSOR_BOND_RADIUS) {
+          const strength = 1 - dist / CURSOR_BOND_RADIUS;
+          pctx.strokeStyle = `rgba(${dotRGB}, ${0.6 * strength})`;
+          pctx.lineWidth = 1.3;
+          pctx.beginPath();
+          pctx.moveTo(d.x, d.y);
+          pctx.lineTo(pointer.x, pointer.y);
+          pctx.stroke();
+          // gentle magnetic pull toward the cursor while bonded
+          d.x -= dx * 0.0025 * strength;
+          d.y -= dy * 0.0025 * strength;
+        }
+      });
+    }
+
+    dots.forEach(d => {
+      pctx.beginPath();
+      pctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      pctx.fillStyle = `rgba(${dotRGB}, 0.85)`;
+      pctx.fill();
+    });
+
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+
+  // =============================
+  // MAGNETIC BUTTONS (interactive UI element)
+  // =============================
+  document.querySelectorAll('.btn, .contact-btn').forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const relX = e.clientX - rect.left - rect.width / 2;
+      const relY = e.clientY - rect.top - rect.height / 2;
+      btn.style.transform = `translate(${relX * 0.25}px, ${relY * 0.35 - 4}px) scale(1.04)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+
+  // =============================
+  // SUBTLE SCROLL PARALLAX (fluid feel on the hero)
+  // =============================
+  const heroEl = document.querySelector('.hero');
+  let parallaxRaf = null;
+  window.addEventListener('scroll', () => {
+    if (parallaxRaf) return;
+    parallaxRaf = requestAnimationFrame(() => {
+      const y = window.scrollY;
+      if (heroEl) {
+        heroEl.style.transform = `translateY(${y * 0.15}px)`;
+        heroEl.style.opacity = String(Math.max(1 - y / 500, 0));
+      }
+      parallaxRaf = null;
+    });
+  }, { passive: true });
+
+  // =============================
+  // THEME CUSTOMIZATION PANEL
+  // =============================
+  const themeToggle = document.getElementById('themeToggle');
+  const themePanel = document.getElementById('themePanel');
+  const bg1Input = document.getElementById('bg1Input');
+  const bg2Input = document.getElementById('bg2Input');
+  const angleInput = document.getElementById('angleInput');
+  const accentInput = document.getElementById('accentInput');
+  const resetThemeBtn = document.getElementById('resetTheme');
+
+  const defaultTheme = {
+    bg1: '#0d0000',
+    bg2: '#5c0000',
+    angle: 135,
+    accent: '#ff4747'
+  };
+
+  themeToggle.addEventListener('click', () => {
+    const isHidden = themePanel.classList.toggle('hidden-panel');
+    themeToggle.setAttribute('aria-expanded', String(!isHidden));
+  });
+
+  function hexToRgb(hex) {
+    const clean = hex.replace('#', '');
+    const bigint = parseInt(clean, 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+    return `${r},${g},${b}`;
+  }
+
+  function applyTheme() {
+    rootEl.style.setProperty('--bg1', bg1Input.value);
+    rootEl.style.setProperty('--bg2', bg2Input.value);
+    rootEl.style.setProperty('--bg-angle', angleInput.value + 'deg');
+    rootEl.style.setProperty('--accent', accentInput.value);
+    rootEl.style.setProperty('--accent-rgb', hexToRgb(accentInput.value));
+    dotRGB = hexToRgb(accentInput.value);
+  }
+
+  [bg1Input, bg2Input, angleInput, accentInput].forEach(input => {
+    input.addEventListener('input', applyTheme);
+  });
+
+  resetThemeBtn.addEventListener('click', () => {
+    bg1Input.value = defaultTheme.bg1;
+    bg2Input.value = defaultTheme.bg2;
+    angleInput.value = defaultTheme.angle;
+    accentInput.value = defaultTheme.accent;
+    applyTheme();
+  });
 </script>
 
 </body>
