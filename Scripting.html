@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scripting — Diamond Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --bg1: #0d0000;
+      --bg2: #5c0000;
+      --bg-angle: 135deg;
+      --accent: #ff4747;
+      --accent-rgb: 255,71,71;
+      --card1: #ffd166;
+      --card2: #ff9900;
+      --card-text: #1a1000;
+      --card-glow: rgba(255,153,0,0.45);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(var(--bg-angle), var(--bg1), var(--bg2));
+      background-attachment: fixed;
+      color: #f2f2f2;
+      overflow-x: hidden;
+    }
+
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 8%;
+      position: sticky;
+      top: 0;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #f2f2f2;
+      text-decoration: none;
+    }
+
+    header a.back {
+      text-decoration: none;
+      color: #f2f2f2;
+      font-weight: 600;
+      opacity: 0.85;
+      transition: 0.3s;
+    }
+    header a.back:hover { opacity: 1; }
+
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 80px 20px 40px;
+    }
+
+    .hero .eyebrow {
+      color: var(--card1);
+      letter-spacing: 3px;
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 8vw, 4.6rem);
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .hero p {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #ddd;
+      max-width: 640px;
+      line-height: 1.7;
+    }
+
+    section {
+      padding: 40px 8% 120px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      margin-bottom: 30px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    /* video card */
+    .video-card {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(10px);
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+
+    .video-loading {
+      padding: 60px 30px;
+      text-align: center;
+      color: #ddd;
+    }
+
+    .video-embed {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 */
+      background: black;
+    }
+    .video-embed iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-info {
+      padding: 30px 35px 35px;
+    }
+    .video-date {
+      display: inline-block;
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: var(--card1);
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .video-info h3 {
+      font-size: 26px;
+      margin-bottom: 14px;
+    }
+    .video-info p {
+      color: #ccc;
+      line-height: 1.7;
+      margin-bottom: 18px;
+      white-space: pre-line;
+    }
+    .video-link {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--card1), var(--card2));
+      color: var(--card-text);
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 10px 25px var(--card-glow);
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .video-link:hover { transform: translateY(-3px); }
+
+    .video-error {
+      padding: 60px 30px;
+      text-align: center;
+      color: #ddd;
+    }
+    .video-error a {
+      color: var(--card1);
+      font-weight: 700;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-weight: 500;
+      color: #ccc;
+      position: relative;
+      z-index: 1;
+    }
+
+    .ripple {
+      position: fixed;
+      border-radius: 50%;
+      transform: translate(-50%,-50%);
+      pointer-events: none;
+      z-index: 300;
+      background: radial-gradient(circle, rgba(var(--accent-rgb),0.55), rgba(var(--accent-rgb),0) 70%);
+      animation: rippleAnim 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    @keyframes rippleAnim {
+      0% { width:0; height:0; opacity:0.9; }
+      100% { width:480px; height:480px; opacity:0; }
+    }
+    .ripple-ring {
+      position: fixed;
+      border: 2px solid rgba(var(--accent-rgb),0.6);
+      border-radius: 50%;
+      transform: translate(-50%,-50%);
+      pointer-events: none;
+      z-index: 300;
+      animation: rippleRingAnim 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    @keyframes rippleRingAnim {
+      0% { width:0; height:0; opacity:0.8; }
+      100% { width:260px; height:260px; opacity:0; }
+    }
+
+    @media(max-width:768px) {
+      header { padding: 18px 6%; }
+      section { padding: 20px 6% 80px; }
+      .video-info { padding: 24px 22px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<header>
+  <a class="logo" href="index.html">DIAMOND</a>
+  <a class="back" href="index.html#projects">&larr; Back to portfolio</a>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">Latest upload</span>
+  <h1>Scripting</h1>
+  <p>Systems, mechanics, and scripting showcases — pulled live from my Scripting playlist on YouTube.</p>
+</section>
+
+<section>
+  <h2 class="section-title">Fresh from the Scripting playlist</h2>
+  <div class="video-card">
+    <div id="videoContainer" class="video-loading">Loading the latest video…</div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Diamond Portfolio. All Rights Reserved.
+</footer>
+
+<script src="assets/playlist.js"></script>
+<script>
+  // =============================
+  // INTERACTIVE PARTICLE DOTS (same behavior as the homepage)
+  // =============================
+  const particleCanvas = document.getElementById('particles');
+  const pctx = particleCanvas.getContext('2d');
+  let dotRGB = '255,71,71';
+  let pw, ph, dots = [];
+
+  function resizeParticleCanvas() {
+    pw = particleCanvas.width = window.innerWidth;
+    ph = particleCanvas.height = window.innerHeight;
+  }
+
+  function initDots() {
+    const count = Math.min(80, Math.floor((pw * ph) / 18000));
+    dots = [];
+    for (let i = 0; i < count; i++) {
+      dots.push({
+        x: Math.random() * pw,
+        y: Math.random() * ph,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: 1.4 + Math.random() * 1.4
+      });
+    }
+  }
+
+  resizeParticleCanvas();
+  initDots();
+  window.addEventListener('resize', () => {
+    resizeParticleCanvas();
+    initDots();
+  });
+
+  const pointer = { x: -9999, y: -9999, active: false };
+  const CURSOR_BOND_RADIUS = 170;
+  const DOT_BOND_RADIUS = 110;
+  let grabbedDots = [];
+  let mouseIsDown = false;
+
+  window.addEventListener('mousemove', (e) => {
+    pointer.x = e.clientX;
+    pointer.y = e.clientY;
+    pointer.active = true;
+  });
+  window.addEventListener('mouseleave', () => { pointer.active = false; });
+  window.addEventListener('mousedown', () => {
+    mouseIsDown = true;
+    grabbedDots = dots.filter(d => Math.hypot(d.x - pointer.x, d.y - pointer.y) < CURSOR_BOND_RADIUS);
+  });
+  window.addEventListener('mouseup', () => {
+    mouseIsDown = false;
+    grabbedDots = [];
+  });
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      pointer.x = e.touches[0].clientX;
+      pointer.y = e.touches[0].clientY;
+      pointer.active = true;
+    }
+  }, { passive: true });
+  window.addEventListener('touchend', () => { pointer.active = false; grabbedDots = []; mouseIsDown = false; });
+
+  function drawParticles() {
+    pctx.clearRect(0, 0, pw, ph);
+
+    dots.forEach(d => {
+      if (mouseIsDown && grabbedDots.includes(d)) {
+        d.x += (pointer.x - d.x) * 0.35;
+        d.y += (pointer.y - d.y) * 0.35;
+      } else {
+        d.x += d.vx;
+        d.y += d.vy;
+        if (d.x < 0 || d.x > pw) d.vx *= -1;
+        if (d.y < 0 || d.y > ph) d.vy *= -1;
+      }
+    });
+
+    for (let i = 0; i < dots.length; i++) {
+      for (let j = i + 1; j < dots.length; j++) {
+        const a = dots[i], b = dots[j];
+        const dist = Math.hypot(a.x - b.x, a.y - b.y);
+        if (dist < DOT_BOND_RADIUS) {
+          pctx.strokeStyle = `rgba(${dotRGB}, ${0.12 * (1 - dist / DOT_BOND_RADIUS)})`;
+          pctx.lineWidth = 1;
+          pctx.beginPath();
+          pctx.moveTo(a.x, a.y);
+          pctx.lineTo(b.x, b.y);
+          pctx.stroke();
+        }
+      }
+    }
+
+    if (pointer.active) {
+      dots.forEach(d => {
+        const dx = d.x - pointer.x, dy = d.y - pointer.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < CURSOR_BOND_RADIUS) {
+          const strength = 1 - dist / CURSOR_BOND_RADIUS;
+          pctx.strokeStyle = `rgba(${dotRGB}, ${0.6 * strength})`;
+          pctx.lineWidth = 1.3;
+          pctx.beginPath();
+          pctx.moveTo(d.x, d.y);
+          pctx.lineTo(pointer.x, pointer.y);
+          pctx.stroke();
+        }
+      });
+    }
+
+    dots.forEach(d => {
+      pctx.beginPath();
+      pctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      pctx.fillStyle = `rgba(${dotRGB}, 0.85)`;
+      pctx.fill();
+    });
+
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+
+  // =============================
+  // CLICK / TAP RIPPLE (raindrop-splash effect)
+  // =============================
+  function spawnRipple(x, y) {
+    const glow = document.createElement('div');
+    glow.className = 'ripple';
+    glow.style.left = x + 'px';
+    glow.style.top = y + 'px';
+    document.body.appendChild(glow);
+    glow.addEventListener('animationend', () => glow.remove());
+
+    const ring = document.createElement('div');
+    ring.className = 'ripple-ring';
+    ring.style.left = x + 'px';
+    ring.style.top = y + 'px';
+    document.body.appendChild(ring);
+    ring.addEventListener('animationend', () => ring.remove());
+  }
+  window.addEventListener('pointerdown', (e) => spawnRipple(e.clientX, e.clientY));
+
+  // =============================
+  // LOAD THE LATEST VIDEO FROM THIS CATEGORY'S PLAYLIST
+  // =============================
+  loadLatestFromPlaylist('PLRrrZ7avK5-A', 'videoContainer');
+</script>
+
+</body>
+</html>
