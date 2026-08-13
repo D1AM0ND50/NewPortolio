@@ -55,7 +55,21 @@ async function loadLatestFromPlaylist(playlistId, containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  const rssUrl = playlistRssUrl(playlistId);
+  // Defensive cleanup: if someone pastes a full share link's query string
+  // (e.g. "PLxxxx&si=abc123" from YouTube's "Share" button, or a whole
+  // "?list=PLxxxx&si=abc123" fragment) instead of the bare ID, strip
+  // everything after the first & or ? so we're left with just the ID.
+  const cleanId = (playlistId || '').trim().split('&')[0].split('?')[0].replace(/^list=/, '');
+
+  if (!/^[A-Za-z0-9_-]{10,}$/.test(cleanId)) {
+    console.warn(
+      `loadLatestFromPlaylist: "${cleanId}" doesn't look like a valid playlist ID. ` +
+      `Real YouTube playlist IDs are usually ~34 characters. Open the playlist directly ` +
+      `(not via the Share button) and copy everything after list= in the address bar.`
+    );
+  }
+
+  const rssUrl = playlistRssUrl(cleanId);
   let apiUrl = `${PROXY_BASE}?rss_url=${encodeURIComponent(rssUrl)}&count=1`;
   if (RSS2JSON_API_KEY) apiUrl += `&api_key=${RSS2JSON_API_KEY}`;
 
@@ -99,7 +113,7 @@ async function loadLatestFromPlaylist(playlistId, containerId) {
     container.innerHTML = `
       <div class="video-error">
         <p>Couldn't load the latest video right now.</p>
-        <a href="https://www.youtube.com/playlist?list=${playlistId}" target="_blank" rel="noopener">View the playlist on YouTube ↗</a>
+        <a href="https://www.youtube.com/playlist?list=${cleanId}" target="_blank" rel="noopener">View the playlist on YouTube ↗</a>
       </div>
     `;
   }
