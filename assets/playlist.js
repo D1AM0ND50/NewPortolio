@@ -1,32 +1,11 @@
 /*
   playlist.js
   ----------------------------------------------------------------------
-  Fetches the most recent video from a YouTube playlist (via its public
-  RSS feed) and renders it into a container on the page.
-
-  Why the proxy: YouTube's own feed endpoint
-  (https://www.youtube.com/feeds/videos.xml?playlist_id=...) does not
-  send CORS headers, so a browser on a different origin (your GitHub
-  Pages site) can't fetch it directly — the request gets blocked before
-  your JS ever sees a response. rss2json.com is a small free service
-  built exactly for this: you send it a feed URL, it fetches the feed
-  server-side and hands you back CORS-friendly JSON.
-
-  IMPORTANT — you need a free API key for this to work:
-  rss2json's fully-anonymous tier is now too restricted to rely on (it
-  returns a 422 error on most requests without a key). Get a free key at:
-
-    1. https://rss2json.com/sign-up  — create a free account, confirm your email
-    2. https://rss2json.com/me/api_key  — copy your key
-    3. Paste it into RSS2JSON_API_KEY below
-
-  It's fine for this key to be visible in your page's source — it's a
-  free-tier key with no billing attached, and if it's ever abused you can
-  regenerate it from the same dashboard page.
-  ----------------------------------------------------------------------
+  Loads videos from a YouTube playlist via its public RSS feed and
+  renders all returned videos into a container.
 */
 
-const RSS2JSON_API_KEY = 'mdveieuuo3bjxstgeata0zgpegwtoiqx8q9gee5m'; // paste your free rss2json.com API key here
+const RSS2JSON_API_KEY = 'mdveieuuo3bjxstgeata0zgpegwtoiqx8q9gee5m';
 const PROXY_BASE = 'https://api.rss2json.com/v1/api.json';
 
 function playlistRssUrl(playlistId) {
@@ -49,98 +28,201 @@ function escapeHtml(str) {
 
 function formatDate(dateStr) {
   const d = new Date(dateStr);
+
   if (isNaN(d.getTime())) return '';
-  return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+
+  return d.toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
 }
 
 /**
- * Loads the newest video from a playlist and renders it into #containerId.
- * @param {string} playlistId - the YouTube playlist ID (the part after list= in the playlist URL)
- * @param {string} containerId - id of the element to render the result into
+ * Loads ALL videos returned by the playlist RSS feed
+ * and renders them into #containerId.
+ *
+ * @param {string} playlistId
+ * @param {string} containerId
  */
-async function loadLatestFromPlaylist(playlistId, containerId) {
+async function loadPlaylist(playlistId, containerId) {
   const container = document.getElementById(containerId);
+
   if (!container) return;
 
-  // Defensive cleanup: if someone pastes a full share link's query string
-  // (e.g. "PLxxxx&si=abc123" from YouTube's "Share" button, or a whole
-  // "?list=PLxxxx&si=abc123" fragment) instead of the bare ID, strip
-  // everything after the first & or ? so we're left with just the ID.
-  const cleanId = (playlistId || '').trim().split('&')[0].split('?')[0].replace(/^list=/, '');
+  const cleanId = (playlistId || '')
+    .trim()
+    .split('&')[0]
+    .split('?')[0]
+    .replace(/^list=/, '');
 
   if (!/^[A-Za-z0-9_-]{10,}$/.test(cleanId)) {
     console.warn(
-      `loadLatestFromPlaylist: "${cleanId}" doesn't look like a valid playlist ID. ` +
-      `Real YouTube playlist IDs are usually ~34 characters. Open the playlist directly ` +
-      `(not via the Share button) and copy everything after list= in the address bar.`
+      `loadPlaylist: "${cleanId}" doesn't look like a valid playlist ID.`
     );
   }
 
   if (!RSS2JSON_API_KEY) {
-    console.warn(
-      'loadLatestFromPlaylist: no RSS2JSON_API_KEY set. rss2json.com now requires a free ' +
-      'API key for reliable access — sign up at https://rss2json.com/sign-up, grab your key ' +
-      'from https://rss2json.com/me/api_key, and paste it into RSS2JSON_API_KEY at the top ' +
-      'of assets/playlist.js. Without it, requests will likely fail with a 422 error.'
-    );
+    console.warn('No RSS2JSON API key configured.');
   }
 
   const rssUrl = playlistRssUrl(cleanId);
-  // Pull more than 1 item: YouTube's feed order follows the playlist's own
-  // sort setting (which can be manual order or oldest-first), not
-  // necessarily "newest upload first" — so we fetch a batch and sort them
-  // ourselves by actual publish date to reliably find the newest one.
-  let apiUrl = `${PROXY_BASE}?rss_url=${encodeURIComponent(rssUrl)}&count=15`;
-  if (RSS2JSON_API_KEY) apiUrl += `&api_key=${RSS2JSON_API_KEY}`;
+
+  // Ask RSS2JSON for as many items as it will return.
+  let apiUrl =
+    `${PROXY_BASE}?rss_url=${encodeURIComponent(rssUrl)}&count=100`;
+
+  if (RSS2JSON_API_KEY) {
+    apiUrl += `&api_key=${RSS2JSON_API_KEY}`;
+  }
+
+  // Loading message
+  container.innerHTML = `
+    <div class="video-loading">
+      Loading playlist…
+    </div>
+  `;
 
   try {
     const res = await fetch(apiUrl);
+
     let data = null;
-    try { data = await res.json(); } catch (e) { /* non-JSON error body, ignore */ }
+
+    try {
+      data = await res.json();
+    } catch (e) {
+      // Ignore invalid JSON and handle it below.
+    }
 
     if (!res.ok) {
-      const detail = data && data.message ? data.message : `HTTP ${res.status}`;
-      throw new Error('Feed request failed: ' + detail);
-    }
-    if (!data || data.status !== 'ok') throw new Error((data && data.message) || 'Feed service returned an error');
-    if (!data.items || !data.items.length) throw new Error('No videos found in this playlist yet');
+      const detail =
+        data && data.message
+          ? data.message
+          : `HTTP ${res.status}`;
 
-    const sorted = [...data.items].sort(
+      throw new Error(`Feed request failed: ${detail}`);
+    }
+
+    if (!data || data.status !== 'ok') {
+      throw new Error(
+        (data && data.message) ||
+        'Feed service returned an error'
+      );
+    }
+
+    if (!data.items || !data.items.length) {
+      throw new Error('No videos found in this playlist yet');
+    }
+
+    /*
+      Sort videos newest first.
+
+      Remove this sort if you want to preserve the order
+      returned by YouTube/RSS2JSON.
+    */
+    const videos = [...data.items].sort(
       (a, b) => new Date(b.pubDate) - new Date(a.pubDate)
     );
-    const latest = sorted[0];
-    const videoId = extractVideoId(latest.link);
-    if (!videoId) throw new Error('Could not read a video ID from the feed entry');
 
-    const rawDescription = (latest.description || '').replace(/<[^>]*>/g, '');
-    const shortDescription = rawDescription.length > 500
-      ? rawDescription.slice(0, 500).trim() + '…'
-      : rawDescription;
+    /*
+      Build HTML for EVERY video.
+    */
+    const videosHtml = videos
+      .map(video => {
+        const videoId = extractVideoId(video.link);
 
+        if (!videoId) {
+          return '';
+        }
+
+        const rawDescription =
+          (video.description || '')
+            .replace(/<[^>]*>/g, '');
+
+        const shortDescription =
+          rawDescription.length > 500
+            ? rawDescription.slice(0, 500).trim() + '…'
+            : rawDescription;
+
+        return `
+          <article class="playlist-video">
+
+            <div class="video-embed">
+              <iframe
+                src="https://www.youtube.com/embed/${encodeURIComponent(videoId)}"
+                title="${escapeHtml(video.title)}"
+                frameborder="0"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
+
+            <div class="video-info">
+
+              ${
+                video.pubDate
+                  ? `<span class="video-date">
+                      ${formatDate(video.pubDate)}
+                    </span>`
+                  : ''
+              }
+
+              <h3>${escapeHtml(video.title)}</h3>
+
+              ${
+                shortDescription
+                  ? `<p>
+                      ${escapeHtml(shortDescription)
+                        .replace(/\n/g, '<br>')}
+                    </p>`
+                  : ''
+              }
+
+              <a
+                class="video-link"
+                href="${escapeHtml(video.link)}"
+                target="_blank"
+                rel="noopener"
+              >
+                Watch on YouTube ↗
+              </a>
+
+            </div>
+
+          </article>
+        `;
+      })
+      .join('');
+
+    if (!videosHtml) {
+      throw new Error('No valid videos could be read from the playlist');
+    }
+
+    /*
+      Render the entire playlist.
+    */
     container.innerHTML = `
-      <div class="video-embed">
-        <iframe
-          src="https://www.youtube.com/embed/${videoId}"
-          title="${escapeHtml(latest.title)}"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-        ></iframe>
-      </div>
-      <div class="video-info">
-        ${latest.pubDate ? `<span class="video-date">${formatDate(latest.pubDate)}</span>` : ''}
-        <h3>${escapeHtml(latest.title)}</h3>
-        <p>${escapeHtml(shortDescription).replace(/\n/g, '<br>')}</p>
-        <a class="video-link" href="${latest.link}" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+      <div class="playlist-videos">
+        ${videosHtml}
       </div>
     `;
+
   } catch (err) {
-    console.error('loadLatestFromPlaylist:', err);
+    console.error('loadPlaylist:', err);
+
     container.innerHTML = `
       <div class="video-error">
-        <p>Couldn't load the latest video right now.</p>
-        <a href="https://www.youtube.com/playlist?list=${cleanId}" target="_blank" rel="noopener">View the playlist on YouTube ↗</a>
+        <p>Couldn't load the playlist right now.</p>
+
+        <a
+          href="https://www.youtube.com/playlist?list=${encodeURIComponent(cleanId)}"
+          target="_blank"
+          rel="noopener"
+        >
+          View the playlist on YouTube ↗
+        </a>
       </div>
     `;
   }
