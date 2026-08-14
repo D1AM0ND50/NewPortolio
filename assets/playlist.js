@@ -86,7 +86,11 @@ async function loadLatestFromPlaylist(playlistId, containerId) {
   }
 
   const rssUrl = playlistRssUrl(cleanId);
-  let apiUrl = `${PROXY_BASE}?rss_url=${encodeURIComponent(rssUrl)}&count=1`;
+  // Pull more than 1 item: YouTube's feed order follows the playlist's own
+  // sort setting (which can be manual order or oldest-first), not
+  // necessarily "newest upload first" — so we fetch a batch and sort them
+  // ourselves by actual publish date to reliably find the newest one.
+  let apiUrl = `${PROXY_BASE}?rss_url=${encodeURIComponent(rssUrl)}&count=15`;
   if (RSS2JSON_API_KEY) apiUrl += `&api_key=${RSS2JSON_API_KEY}`;
 
   try {
@@ -101,7 +105,10 @@ async function loadLatestFromPlaylist(playlistId, containerId) {
     if (!data || data.status !== 'ok') throw new Error((data && data.message) || 'Feed service returned an error');
     if (!data.items || !data.items.length) throw new Error('No videos found in this playlist yet');
 
-    const latest = data.items[0];
+    const sorted = [...data.items].sort(
+      (a, b) => new Date(b.pubDate) - new Date(a.pubDate)
+    );
+    const latest = sorted[0];
     const videoId = extractVideoId(latest.link);
     if (!videoId) throw new Error('Could not read a video ID from the feed entry');
 
