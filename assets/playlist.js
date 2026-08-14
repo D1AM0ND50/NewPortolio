@@ -12,14 +12,21 @@
   built exactly for this: you send it a feed URL, it fetches the feed
   server-side and hands you back CORS-friendly JSON.
 
-  Free tier is unauthenticated and rate-limited, which is plenty for a
-  personal portfolio's traffic. If you ever outgrow it, sign up at
-  rss2json.com for an API key and drop it into RSS2JSON_API_KEY below,
-  or swap PROXY_BASE for your own small serverless function.
+  IMPORTANT — you need a free API key for this to work:
+  rss2json's fully-anonymous tier is now too restricted to rely on (it
+  returns a 422 error on most requests without a key). Get a free key at:
+
+    1. https://rss2json.com/sign-up  — create a free account, confirm your email
+    2. https://rss2json.com/me/api_key  — copy your key
+    3. Paste it into RSS2JSON_API_KEY below
+
+  It's fine for this key to be visible in your page's source — it's a
+  free-tier key with no billing attached, and if it's ever abused you can
+  regenerate it from the same dashboard page.
   ----------------------------------------------------------------------
 */
 
-const RSS2JSON_API_KEY = ''; // optional — leave blank to use the free anonymous tier
+const RSS2JSON_API_KEY = 'mdveieuuo3bjxstgeata0zgpegwtoiqx8q9gee5m'; // paste your free rss2json.com API key here
 const PROXY_BASE = 'https://api.rss2json.com/v1/api.json';
 
 function playlistRssUrl(playlistId) {
@@ -69,16 +76,29 @@ async function loadLatestFromPlaylist(playlistId, containerId) {
     );
   }
 
+  if (!RSS2JSON_API_KEY) {
+    console.warn(
+      'loadLatestFromPlaylist: no RSS2JSON_API_KEY set. rss2json.com now requires a free ' +
+      'API key for reliable access — sign up at https://rss2json.com/sign-up, grab your key ' +
+      'from https://rss2json.com/me/api_key, and paste it into RSS2JSON_API_KEY at the top ' +
+      'of assets/playlist.js. Without it, requests will likely fail with a 422 error.'
+    );
+  }
+
   const rssUrl = playlistRssUrl(cleanId);
   let apiUrl = `${PROXY_BASE}?rss_url=${encodeURIComponent(rssUrl)}&count=1`;
   if (RSS2JSON_API_KEY) apiUrl += `&api_key=${RSS2JSON_API_KEY}`;
 
   try {
     const res = await fetch(apiUrl);
-    if (!res.ok) throw new Error('Feed request failed with status ' + res.status);
-    const data = await res.json();
+    let data = null;
+    try { data = await res.json(); } catch (e) { /* non-JSON error body, ignore */ }
 
-    if (data.status !== 'ok') throw new Error(data.message || 'Feed service returned an error');
+    if (!res.ok) {
+      const detail = data && data.message ? data.message : `HTTP ${res.status}`;
+      throw new Error('Feed request failed: ' + detail);
+    }
+    if (!data || data.status !== 'ok') throw new Error((data && data.message) || 'Feed service returned an error');
     if (!data.items || !data.items.length) throw new Error('No videos found in this playlist yet');
 
     const latest = data.items[0];
