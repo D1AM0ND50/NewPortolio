@@ -26,7 +26,7 @@
   ----------------------------------------------------------------------
 */
 
-const RSS2JSON_API_KEY = ''; // paste your free rss2json.com API key here
+const RSS2JSON_API_KEY = 'mdveieuuo3bjxstgeata0zgpegwtoiqx8q9gee5m'; // paste your free rss2json.com API key here
 const PROXY_BASE = 'https://api.rss2json.com/v1/api.json';
 
 function playlistRssUrl(playlistId) {
