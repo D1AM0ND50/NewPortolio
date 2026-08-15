@@ -1,11 +1,27 @@
 name: Update YouTube Playlist Data
 
-# Runs once a day and can also be triggered manually from the Actions tab
-# (useful for the very first run, so you don't have to wait for the
-# schedule to populate data/*.json).
+# Runs on a schedule and can also be triggered manually from the Actions tab.
+#
+# Cron format is "minute hour day month weekday", always in UTC, e.g.:
+#   '0 6 * * *'      -> once a day at 06:00 UTC
+#   '0 */6 * * *'    -> every 6 hours  (currently set below)
+#   '0 */3 * * *'    -> every 3 hours
+#   '0 * * * *'      -> every hour
+#   '*/15 * * * *'   -> every 15 minutes
+#
+# Two things worth knowing before going very frequent:
+#   1. GitHub does not guarantee scheduled runs fire at the exact minute —
+#      during high load across GitHub it can delay a run by several
+#      minutes to over an hour. This is normal and not a bug in this
+#      workflow. GitHub also recommends against intervals shorter than
+#      ~5 minutes for reliability.
+#   2. It's still cheap either way: if nothing changed, the "Commit and
+#      push" step below skips committing, so running often costs a little
+#      CI time but never spams your commit history or burns meaningful
+#      YouTube API quota (each run only uses a handful of quota units).
 on:
   schedule:
-    - cron: '0 6 * * *'   # 06:00 UTC every day
+    - cron: '0 */6 * * *'   # every 6 hours
   workflow_dispatch: {}
 
 permissions:
@@ -21,7 +37,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       # continue-on-error so that if one playlist fails, we still commit
       # whatever DID succeed, then explicitly fail the workflow afterward
