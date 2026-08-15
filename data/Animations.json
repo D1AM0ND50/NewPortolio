@@ -1,6 +1,14 @@
 {
   "playlistId": "PLXbJgYJNPNwA",
-  "updatedAt": null,
-  "videoCount": 0,
-  "videos": []
+  "updatedAt": "2026-08-15T10:48:12.433Z",
+  "videoCount": 1,
+  "videos": [
+    {
+      "videoId": "4aGOXiJslr4",
+      "title": "Realistic R6 Gun Animations Blender/Roblox",
+      "description": "All the Animation are made by me ( Sanityloop) in Blender and exported to roblox later on.\n\nDiscord - infinitygamer.\nRoblox - sanityloop",
+      "publishedAt": "2026-08-10T16:12:25Z",
+      "thumbnail": "https://i.ytimg.com/vi/4aGOXiJslr4/mqdefault.jpg"
+    }
+  ]
 }
