@@ -1,0 +1,52 @@
+name: Update YouTube Playlist Data
+
+# Runs once a day and can also be triggered manually from the Actions tab
+# (useful for the very first run, so you don't have to wait for the
+# schedule to populate data/*.json).
+on:
+  schedule:
+    - cron: '0 6 * * *'   # 06:00 UTC every day
+  workflow_dispatch: {}
+
+permissions:
+  contents: write   # needed so this workflow can commit updated data/*.json back to the repo
+
+jobs:
+  update-playlists:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # continue-on-error so that if one playlist fails, we still commit
+      # whatever DID succeed, then explicitly fail the workflow afterward
+      # (see last step) so you still get notified something needs attention.
+      - name: Fetch playlist data from YouTube
+        id: fetch
+        continue-on-error: true
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: node scripts/fetch-playlists.mjs
+
+      - name: Commit and push data if it changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update playlist data [automated]"
+            git push
+          fi
+
+      - name: Fail the workflow if any playlist failed to fetch
+        if: steps.fetch.outcome == 'failure'
+        run: |
+          echo "One or more playlists failed to fetch — see the 'Fetch playlist data from YouTube' step above for details."
+          exit 1

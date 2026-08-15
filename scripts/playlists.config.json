@@ -1,0 +1,5 @@
+[
+  { "name": "Animations", "playlistId": "PLXbJgYJNPNwA", "outFile": "data/Animations.json" },
+  { "name": "Visual Effects", "playlistId": "PLB6BUwGytVBM", "outFile": "data/VisualEffects.json" },
+  { "name": "Scripting", "playlistId": "PLRrrZ7avK5-A", "outFile": "data/Scripting.json" }
+]

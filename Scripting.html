@@ -197,6 +197,19 @@
       color: var(--card1);
       font-weight: 700;
     }
+    .video-error-detail {
+      margin-top: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .updated-note {
+      padding: 0 35px;
+      margin-top: -14px;
+      margin-bottom: 4px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+    }
 
     .grid-heading {
       padding: 30px 35px 0;
@@ -323,7 +336,7 @@
       header { padding: 18px 6%; }
       section { padding: 20px 6% 80px; }
       .video-info { padding: 24px 22px 28px; }
-      .grid-heading, .video-grid, .playlist-footer-link { padding-left: 20px; padding-right: 20px; }
+      .grid-heading, .video-grid, .playlist-footer-link, .updated-note { padding-left: 20px; padding-right: 20px; }
     }
   </style>
 </head>
@@ -496,9 +509,9 @@
   window.addEventListener('pointerdown', (e) => spawnRipple(e.clientX, e.clientY));
 
   // =============================
-  // LOAD ALL VIDEOS FROM THIS CATEGORY'S PLAYLIST
+  // LOAD ALL SAVED VIDEOS FOR THIS CATEGORY (from data/*.json)
   // =============================
-  loadPlaylistVideos('PLRrrZ7avK5-A', 'videoContainer');
+  loadPlaylistFromData('data/Scripting.json', 'videoContainer');
 </script>
 
 </body>
