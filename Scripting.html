@@ -198,6 +198,91 @@
       font-weight: 700;
     }
 
+    .grid-heading {
+      padding: 30px 35px 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: #f2f2f2;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 20px 35px 35px;
+    }
+
+    .video-thumb-card {
+      cursor: pointer;
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease;
+    }
+    .video-thumb-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--card1);
+    }
+    .video-thumb-card.active {
+      border-color: var(--card1);
+      box-shadow: 0 0 0 2px var(--card1);
+    }
+
+    .thumb-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: black;
+    }
+    .thumb-wrap img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .play-badge {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: white;
+      background: rgba(0,0,0,0.25);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .video-thumb-card:hover .play-badge { opacity: 1; }
+
+    .thumb-info {
+      padding: 12px 14px 16px;
+    }
+    .thumb-info h4 {
+      font-size: 14px;
+      line-height: 1.4;
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .thumb-info .video-date {
+      font-size: 10px;
+    }
+
+    .playlist-footer-link {
+      padding: 0 35px 35px;
+      text-align: center;
+    }
+    .playlist-footer-link a {
+      color: var(--card1);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .playlist-footer-link a:hover { text-decoration: underline; }
+
     footer {
       text-align: center;
       padding: 30px;
@@ -238,6 +323,7 @@
       header { padding: 18px 6%; }
       section { padding: 20px 6% 80px; }
       .video-info { padding: 24px 22px 28px; }
+      .grid-heading, .video-grid, .playlist-footer-link { padding-left: 20px; padding-right: 20px; }
     }
   </style>
 </head>
@@ -251,15 +337,15 @@
 </header>
 
 <section class="hero">
-  <span class="eyebrow">Latest upload</span>
+  <span class="eyebrow">All uploads</span>
   <h1>Scripting</h1>
   <p>Systems, mechanics, and scripting showcases — pulled live from my Scripting playlist on YouTube.</p>
 </section>
 
 <section>
-  <h2 class="section-title">Fresh from the Scripting playlist</h2>
+  <h2 class="section-title">All uploads from Scripting playlist</h2>
   <div class="video-card">
-    <div id="videoContainer" class="video-loading">Loading the latest video…</div>
+    <div id="videoContainer" class="video-loading">Loading videos…</div>
   </div>
 </section>
 
@@ -410,9 +496,9 @@
   window.addEventListener('pointerdown', (e) => spawnRipple(e.clientX, e.clientY));
 
   // =============================
-  // LOAD THE LATEST VIDEO FROM THIS CATEGORY'S PLAYLIST
+  // LOAD ALL VIDEOS FROM THIS CATEGORY'S PLAYLIST
   // =============================
-  loadLatestFromPlaylist('PLRrrZ7avK5-A&si=8Qshtw9ilf4uI__5', 'videoContainer');
+  loadPlaylistVideos('PLRrrZ7avK5-A', 'videoContainer');
 </script>
 
 </body>
