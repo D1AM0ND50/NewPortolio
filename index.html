@@ -330,6 +330,54 @@
       line-height: 1.6;
     }
 
+    /* Featured Games */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+    }
+
+    .game-card {
+      height: 340px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 24px;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--card1), var(--card2));
+      box-shadow: 0 15px 40px var(--card-glow);
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+    }
+
+    .game-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 60px var(--card-glow);
+    }
+
+    .game-image {
+      flex: 1 1 50%;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+    }
+
+    .game-title {
+      flex: 1 1 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 16px 20px;
+      color: var(--card-text);
+      font-size: 22px;
+      font-weight: 800;
+    }
+
     /* Pricing */
     .pricing-grid {
       display: grid;
@@ -550,7 +598,7 @@
        Only enabled on devices with a real mouse (hover:hover + pointer:fine);
        touchscreens keep their normal behavior untouched. */
     @media (hover: hover) and (pointer: fine) {
-      body, a, button, input, .video-thumb-card, .project-card, .about-card, .price-box {
+      body, a, button, input, .video-thumb-card, .project-card, .about-card, .price-box, .game-card {
         cursor: none;
       }
     }
@@ -612,6 +660,7 @@
   <nav>
     <a href="#about">About</a>
     <a href="#projects">Projects</a>
+    <a href="#games">Games</a>
     <a href="#pricing">Pricing</a>
     <a href="#contact">Contact</a>
   </nav>
@@ -692,6 +741,23 @@
         <p>Systems and scripting showcases, pulled live from my YouTube Scripting playlist.</p>
       </div>
     </div>
+
+  </div>
+</section>
+
+
+<section id="games">
+  <h2 class="section-title hidden">Featured Games</h2>
+
+  <div class="games-grid">
+
+    <a class="game-card hidden" href="https://www.roblox.com/games/115333712677100/D-Rex" target="_blank" rel="noopener">
+      <!-- EDIT: replace href="#" with the real game link, and swap the
+           background below for a real cover image, e.g.
+           style="background-image:url('your-image.jpg')" -->
+      <div class="game-image">🎮</div>
+      <div class="game-title">D - REX</div>
+    </a>
 
   </div>
 </section>
@@ -1042,7 +1108,7 @@
     }
     animateRing();
 
-    const hoverSelector = 'a, button, input, .video-thumb-card, .project-card, .about-card, .price-box';
+    const hoverSelector = 'a, button, input, .video-thumb-card, .project-card, .about-card, .price-box, .game-card';
     document.addEventListener('mouseover', (e) => {
       if (e.target.closest && e.target.closest(hoverSelector)) ring.classList.add('hovering');
     });
