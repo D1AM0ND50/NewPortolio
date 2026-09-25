@@ -1,8 +1,15 @@
 {
   "playlistId": "PLRrrZ7avK5-A",
-  "updatedAt": "2026-09-25T03:32:03.945Z",
-  "videoCount": 9,
+  "updatedAt": "2026-09-25T11:11:56.080Z",
+  "videoCount": 10,
   "videos": [
+    {
+      "videoId": "ieVu4DEJpQ8",
+      "title": "Ragebait as a chicken. Frontend + Backend Script Showcase | Roblox Studio",
+      "description": "This is a showcase video of the Frontend + Backend system of the game Ragebait as a chicken. This video contains systems like\n\n- Inventory System\n- Shop System with robux purchase integrated\n- Upgrade purchase system\n- Skin Purchase System\n- Leaderboard System\nCrate Purchase + Crate Openeing System \n\nFor Commissions and Paid Project Contact me on Discord or via Email\nDiscord - infinitygamer.\nEmail - diamondworking36@gmail.com",
+      "publishedAt": "2026-09-25T09:56:14Z",
+      "thumbnail": "https://i.ytimg.com/vi/ieVu4DEJpQ8/mqdefault.jpg"
+    },
     {
       "videoId": "DAOnIXd0EM8",
       "title": "Zombie Ai Showcase of my Zombie Survival Project",
