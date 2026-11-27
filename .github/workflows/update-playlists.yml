@@ -49,6 +49,11 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: node scripts/fetch-playlists.mjs
 
+      - name: Fetch game stats from Roblox
+        id: games
+        continue-on-error: true
+        run: node scripts/fetch-games.mjs
+
       - name: Commit and push data if it changed
         run: |
           git config user.name "github-actions[bot]"
@@ -61,8 +66,8 @@ jobs:
             git push
           fi
 
-      - name: Fail the workflow if any playlist failed to fetch
-        if: steps.fetch.outcome == 'failure'
+      - name: Fail the workflow if any fetch failed
+        if: steps.fetch.outcome == 'failure' || steps.games.outcome == 'failure'
         run: |
-          echo "One or more playlists failed to fetch — see the 'Fetch playlist data from YouTube' step above for details."
+          echo "A fetch failed — see the YouTube and Roblox fetch steps above for details."
           exit 1

@@ -201,37 +201,12 @@
 
     /* Project Cards */
     .projects-grid {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 90px;
-      overflow: hidden;
-      padding: 80px 0;
-    }
-
-    .projects-grid::-webkit-scrollbar {
-      display: none;
-    }
-
-    .project-card:nth-child(odd) {
-      transform: translateX(-420px) scale(0.75);
-      align-self: flex-start;
-      margin-left: -60px;
-    }
-
-    .project-card:nth-child(even) {
-      transform: translateX(420px) scale(0.75);
-      align-self: flex-end;
-      margin-right: -60px;
-    }
-
-    .project-card.show:nth-child(odd) {
-      transform: translateX(0) scale(0.92);
-    }
-
-    .project-card.show:nth-child(even) {
-      transform: translateX(0) scale(0.92);
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 0;
     }
 
     .project-card {
@@ -241,8 +216,6 @@
       border-radius: 30px;
       overflow: hidden;
       min-height: 320px;
-      width: 72%;
-      max-width: 720px;
       transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
       box-shadow: 0 20px 50px var(--card-glow);
       cursor: pointer;
@@ -252,7 +225,7 @@
     }
 
     .project-card:hover {
-      transform: translateY(-20px) scale(1.08) rotate(4deg) !important;
+      transform: translateY(-12px) scale(1.03) rotate(2deg) !important;
       box-shadow: 0 40px 100px var(--card-glow);
     }
 
@@ -333,12 +306,12 @@
     /* Featured Games */
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 340px));
+      justify-content: center;
       gap: 30px;
     }
 
     .game-card {
-      height: 340px;
       display: flex;
       flex-direction: column;
       border-radius: 24px;
@@ -356,7 +329,7 @@
     }
 
     .game-image {
-      flex: 1 1 50%;
+      aspect-ratio: 1 / 1;
       background: linear-gradient(135deg, var(--bg1), var(--bg2));
       background-size: cover;
       background-position: center;
@@ -366,16 +339,41 @@
       font-size: 56px;
     }
 
-    .game-title {
-      flex: 1 1 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .game-info {
+      padding: 16px 20px 20px;
       text-align: center;
-      padding: 16px 20px;
       color: var(--card-text);
+    }
+
+    .game-title {
       font-size: 22px;
       font-weight: 800;
+    }
+
+    .game-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 10px;
+    }
+
+    .game-stats strong {
+      display: block;
+      font-size: 20px;
+    }
+
+    .game-stats span {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .games-updated {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 13px;
+      color: #ccc;
     }
 
     /* Pricing */
@@ -568,30 +566,6 @@
       nav {
         display: none;
       }
-
-      /*
-        Fix: on desktop, cards slide in from ±420px and get pulled further
-        off-center with a -60px margin + align-self flex-start/flex-end.
-        The parent .projects-grid has overflow:hidden to make that slide-in
-        effect work — but on narrow phone screens that same fixed 420px
-        offset and -60px margin push the card mostly or entirely outside
-        the visible area, and overflow:hidden then clips it, making it look
-        like the card "doesn't display". On mobile we drop the horizontal
-        slide/margins and just fade the cards up into place, centered.
-      */
-      .project-card:nth-child(odd),
-      .project-card:nth-child(even) {
-        transform: translateY(50px) scale(0.95);
-        align-self: center;
-        margin-left: 0;
-        margin-right: 0;
-        width: 90%;
-      }
-
-      .project-card.show:nth-child(odd),
-      .project-card.show:nth-child(even) {
-        transform: translateY(0) scale(1);
-      }
     }
   
     /* Custom cursor — matches the site's gold/red theme.
@@ -751,15 +725,34 @@
 
   <div class="games-grid">
 
-    <a class="game-card hidden" href="https://www.roblox.com/games/115333712677100/D-Rex" target="_blank" rel="noopener">
-      <!-- EDIT: replace href="#" with the real game link, and swap the
-           background below for a real cover image, e.g.
-           style="background-image:url('your-image.jpg')" -->
+    <!-- To add a game: copy a card, set its link and data-place-id (the
+         number in the Roblox link), and add the same ID to
+         scripts/games.config.json. Icon, CCU and Visits come from
+         data/Games.json. -->
+    <a class="game-card hidden" data-place-id="115333712677100" href="https://www.roblox.com/games/115333712677100/D-Rex" target="_blank" rel="noopener">
       <div class="game-image">🎮</div>
-      <div class="game-title">D - REX</div>
+      <div class="game-info">
+        <div class="game-title">D - REX</div>
+        <div class="game-stats">
+          <div><strong class="stat-ccu">—</strong><span>CCU</span></div>
+          <div><strong class="stat-visits">—</strong><span>Visits</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="game-card hidden" data-place-id="83713265821348" href="https://www.roblox.com/games/83713265821348/Chase-a-Mutant" target="_blank" rel="noopener">
+      <div class="game-image">🎮</div>
+      <div class="game-info">
+        <div class="game-title">Chase a Mutant</div>
+        <div class="game-stats">
+          <div><strong class="stat-ccu">—</strong><span>CCU</span></div>
+          <div><strong class="stat-visits">—</strong><span>Visits</span></div>
+        </div>
+      </div>
     </a>
 
   </div>
+  <p class="games-updated" id="gamesUpdated"></p>
 </section>
 
 
@@ -832,10 +825,7 @@
       const title = card.dataset.title.toLowerCase();
       const desc = card.dataset.description.toLowerCase();
 
-      if(input === '') {
-        card.style.display = 'block';
-      }
-      else if(title.includes(input) || desc.includes(input)) {
+      if(input === '' || title.includes(input) || desc.includes(input)) {
         card.style.display = 'block';
       }
       else {
@@ -843,6 +833,42 @@
       }
     });
   }
+
+  // =============================
+  // ROBLOX GAME STATS (from data/Games.json, see scripts/fetch-games.mjs)
+  // =============================
+  async function loadGameStats() {
+    try {
+      const res = await fetch('data/Games.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      const compact = new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 });
+
+      data.games.forEach(game => {
+        const card = document.querySelector(`.game-card[data-place-id="${game.placeId}"]`);
+        if (!card) return;
+        card.querySelector('.stat-ccu').textContent = compact.format(game.playing);
+        card.querySelector('.stat-visits').textContent = compact.format(game.visits);
+
+        if (game.icon) {
+          // Only replace the placeholder once the icon has actually loaded.
+          const img = new Image();
+          img.onload = () => {
+            const box = card.querySelector('.game-image');
+            box.style.backgroundImage = `url("${game.icon}")`;
+            box.textContent = '';
+          };
+          img.src = game.icon;
+        }
+      });
+
+      const updated = new Date(data.updatedAt).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+      document.getElementById('gamesUpdated').textContent = `Roblox stats as of ${updated}`;
+    } catch (err) {
+      console.error('loadGameStats:', err);
+    }
+  }
+  loadGameStats();
 
   // =============================
   // MOUSE / TOUCH FOLLOW LIGHT SOURCE
